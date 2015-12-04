@@ -15,11 +15,9 @@ class TermsTableSeeder extends Seeder
         $data = ['Fall','Spring','Summer','Winter','Research'];
 
         foreach($data as $termName) {
-            DB::table('terms')->insert([
-            'created_at' => Carbon\Carbon::now()->toDateTimeString(),
-            'updated_at' => Carbon\Carbon::now()->toDateTimeString(),
-            'name'       => $termName,
-            ]);
+            $term = new \ATC\Term();
+            $term->name = $termName;
+            $term->save();
         }
     }
 }
