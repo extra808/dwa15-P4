@@ -78,7 +78,6 @@ $sitetitle = 'ATC Delivery';
 
       <!-- Main component for a primary marketing message or call to action -->
       <div class="jumbotron">
-        This is some content.
         {{-- Main page content will be yielded here --}}
         @yield('content')
       </div>
