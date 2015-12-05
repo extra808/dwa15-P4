@@ -19,3 +19,5 @@ Route::get('/', function () {
 if (App::environment() == 'local') {
     Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 }
+
+Route::resource('students', 'StudentController');
