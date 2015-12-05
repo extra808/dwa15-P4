@@ -11,3 +11,4 @@ A site for delivering files to student clients of the Assistive Technology Cente
 ## Details for teaching team
 
 ## Outside code
+* [Bootstrap Fixed top navbar](http://getbootstrap.com/examples/navbar-fixed-top/)
