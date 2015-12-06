@@ -39,9 +39,14 @@ class CourseController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($studentId)
     {
+        $title = 'Add Course';
+ 
+        $terms = \ATC\Term::all();
 
+        return view('course.create') ->withTitle($title) ->withTerms($terms)
+            ->withStudent($studentId);
     }
 
     /**
@@ -50,9 +55,26 @@ class CourseController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store($studentId, Request $request)
     {
-        //
+        // store new course
+        $course = new \ATC\Course();
+
+        // attempt validation
+        if ($course->validate($request) ) {
+            $course->year = $request->year;
+            $course->term_id = $request->term;
+            $course->name = $request->name;
+            $course->student_id = $studentId;
+            $course->save(); // insert new course in table
+
+            return redirect()->action('CourseController@show', [$course]);
+        }
+        else {
+            $errors = $course->getErrors();
+            Session::flash('flash_message', $errors);
+            return back()->withInput();
+        }
     }
 
     /**
