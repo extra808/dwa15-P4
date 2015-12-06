@@ -23,7 +23,7 @@ $sitetitle = 'ATC Delivery';
     </title>
 
     <!-- Bootstrap core CSS -->
-    <link href="css/app.css" rel="stylesheet">
+    <link href="/css/app.css" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -51,7 +51,7 @@ $sitetitle = 'ATC Delivery';
             <li><a href="/students">List Students</a></li>
             <li><a href="/files">List Files</a></li>
             <li><a href="/courses">List Courses</a></li>
-            <li><a href="/students/new">Add Student</a></li>
+            <li><a href="/students/create">Add Student</a></li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
               <ul class="dropdown-menu">
@@ -75,9 +75,15 @@ $sitetitle = 'ATC Delivery';
     </nav>
 
     <div class="container">
-
       <!-- Main component for a primary marketing message or call to action -->
       <div class="jumbotron">
+
+    @if(\Session::has('flash_message'))
+        <div class='alert alert-warning' role="alert">
+            {{ \Session::get('flash_message') }}
+        </div>
+    @endif
+
         {{-- Main page content will be yielded here --}}
         @yield('content')
       </div>
@@ -89,9 +95,9 @@ $sitetitle = 'ATC Delivery';
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script src="javascripts/bootstrap.min.js"></script>
+    <script src="/javascripts/bootstrap.min.js"></script>
 
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script async src="javascripts/ie10-viewport-bug-workaround.js"></script>
+    <script async src="/javascripts/ie10-viewport-bug-workaround.js"></script>
   </body>
 </html>
