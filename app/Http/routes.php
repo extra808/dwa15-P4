@@ -21,3 +21,5 @@ if (App::environment() == 'local') {
 }
 
 Route::resource('students', 'StudentController');
+
+Route::resource('students.courses', 'CourseController');
