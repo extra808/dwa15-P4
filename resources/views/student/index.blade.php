@@ -7,11 +7,11 @@
 @section('content')
     <h1>{{ $title or '' }}</h1>
 
+    <ul>
     @foreach($students as $student)
-        <ul>
-            <li><a href="{{ Route::getCurrentRoute()->getPath() .'/'. $student->id }}">
+            <li><a href="{{ $_SERVER['REQUEST_URI'] .'/'. $student->id }}">
                 {{ $student->initials }}</a>
-        </ul>
     @endforeach
+    </ul>
 
 @stop
