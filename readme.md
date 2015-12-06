@@ -10,6 +10,7 @@ A site for delivering files to student clients of the Assistive Technology Cente
 
 ## Details for teaching team
 * Validation performed in models
+* `onDelete('cascade')` in foreign key relationship makes database take care of deleting related records in courses and course_file tables, instead of code in controllers or models
 
 ## Outside code
 * [Bootstrap Fixed top navbar](http://getbootstrap.com/examples/navbar-fixed-top/)

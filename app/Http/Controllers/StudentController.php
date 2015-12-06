@@ -117,6 +117,18 @@ class StudentController extends Controller
      */
     public function destroy($id)
     {
-        //
+        // in case it's not found
+        Session::flash('flash_message','Student not found.');
+
+        // get a student
+        $student = \ATC\Student::findOrFail($id);
+
+        // delete student, will cascade to delete their courses
+        $student->delete();
+
+        Session::flash('flash_message', $student->initials.' deleted');
+
+        // go to list view
+        return redirect()->action('StudentController@index');
     }
 }
