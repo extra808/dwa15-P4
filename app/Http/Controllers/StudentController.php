@@ -3,6 +3,7 @@
 namespace ATC\Http\Controllers;
 
 use Illuminate\Http\Request;
+use \Session;
 
 use ATC\Http\Requests;
 use ATC\Http\Controllers\Controller;
@@ -30,7 +31,8 @@ class StudentController extends Controller
      */
     public function create()
     {
-        //
+        $title = 'Add Student';
+        return view('student.create') ->withTitle($title);
     }
 
     /**
@@ -41,7 +43,15 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+//        $this->validateStudent($request);
+
+        // store new student
+        $student = new \ATC\Student();
+        $student->initials = $request->initials;
+        $student->external_id = $request->external_id;
+        $student->save(); // insert new student in table
+
+        return redirect()->action('StudentController@show', [$student]);
     }
 
     /**
@@ -52,7 +62,20 @@ class StudentController extends Controller
      */
     public function show($id)
     {
-        //
+        $title = 'Show Student';
+
+        // in case it's not found
+        Session::flash('flash_message','Student not found.');
+
+        // get a student
+        $student = \ATC\Student::findOrFail($id);
+
+        // student found
+        Session::remove('flash_message');
+
+        $courses = \ATC\Course::where('student_id', $id) ->orderBy('name', 'ASC') ->get();
+
+        return view('student.show') ->withTitle($title) ->withStudent($student) ->withCourses($courses);
     }
 
     /**
