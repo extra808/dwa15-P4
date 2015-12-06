@@ -43,7 +43,6 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
-
         // store new student
         $student = new \ATC\Student();
 
@@ -94,7 +93,18 @@ class StudentController extends Controller
      */
     public function edit($id)
     {
-        //
+        // in case it's not found
+        Session::flash('flash_message','Student not found.');
+
+        // get a student
+        $student = \ATC\Student::findOrFail($id);
+
+        // student found
+        Session::remove('flash_message');
+
+        $title = 'Edit '. $student->initials;
+
+        return view('student.edit') ->withTitle($title) ->withStudent($student);
     }
 
     /**
@@ -106,7 +116,28 @@ class StudentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // in case it's not found
+        Session::flash('flash_message','Student not found.');
+
+        // get a student
+        $student = \ATC\Student::findOrFail($id);
+
+        // student found
+        Session::remove('flash_message');
+
+        // attempt validation
+        if ($student->validate($request) ) {
+            $student->initials = $request->initials;
+            $student->external_id = $request->external_id;
+            $student->save(); // update student in table
+
+            return redirect()->action('StudentController@show', [$student]);
+        }
+        else {
+            $errors = $student->getErrors();
+            Session::flash('flash_message', $errors);
+            return back()->withInput();
+        }
     }
 
     /**
