@@ -9,6 +9,8 @@ A site for delivering files to student clients of the Assistive Technology Cente
 ## Demo
 
 ## Details for teaching team
+* Validation performed in models
 
 ## Outside code
 * [Bootstrap Fixed top navbar](http://getbootstrap.com/examples/navbar-fixed-top/)
+* [Trick: Validation within models.](http://daylerees.com/trick-validation-within-models/)

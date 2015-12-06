@@ -43,15 +43,23 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
-//        $this->validateStudent($request);
 
         // store new student
         $student = new \ATC\Student();
-        $student->initials = $request->initials;
-        $student->external_id = $request->external_id;
-        $student->save(); // insert new student in table
 
-        return redirect()->action('StudentController@show', [$student]);
+        // attempt validation
+        if ($student->validate($request) ) {
+            $student->initials = $request->initials;
+            $student->external_id = $request->external_id;
+            $student->save(); // insert new student in table
+
+            return redirect()->action('StudentController@show', [$student]);
+        }
+        else {
+            $errors = $student->getErrors();
+            Session::flash('flash_message', $errors);
+            return back()->withInput();
+        }
     }
 
     /**
