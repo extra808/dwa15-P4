@@ -15,7 +15,9 @@ class ConnectCoursesAndStudents extends Migration
         // add one to many relationship between courses and students
         Schema::table('courses', function (Blueprint $table) {
             $table->integer('student_id')->unsigned();
-            $table->foreign('student_id')->references('id')->on('students');
+            $table->foreign('student_id')
+                  ->references('id')->on('students')
+                  ->onDelete('cascade');
         });
     }
 
