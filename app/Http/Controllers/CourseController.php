@@ -66,8 +66,10 @@ class CourseController extends Controller
         // in case it's not found
         Session::flash('flash_message','Course not found.');
 
-        // get course
-        $course = \ATC\Course::with('files', 'term')->findOrFail($id);
+        // get course with its term and its files sorted newest to oldest
+        $course = \ATC\Course::with(['term', 'files' => function ($query) {
+                    $query->orderBy('updated_at', 'ASC');
+                }])->findOrFail($id);
 
         // student found
         Session::remove('flash_message');
