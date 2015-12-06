@@ -15,7 +15,7 @@ class Student extends Model
 
     // student has one to many relationship to courses
     public function course() {
-        return $this->hasMany('\App\Course');
+        return $this->hasMany('\ATC\Course');
     }
 
     public function getErrors() {

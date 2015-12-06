@@ -9,18 +9,18 @@ class Course extends Model
     // many courses may belong to one student
     // inverse of one to many relationship
     public function student() {
-        return $this->belongsTo('\App\Student');
+        return $this->belongsTo('\ATC\Student');
     }
 
     // many courses may belong to one term
     // inverse of one to many relationship
     public function term() {
-        return $this->belongsTo('\App\Term');
+        return $this->belongsTo('\ATC\Term');
     }
 
     // many to many relationship with courses
     public function files() {
-        return $this->belongsToMany('\App\File')->withTimestamps();;
+        return $this->belongsToMany('\ATC\File')->withTimestamps();
     }
 
 }

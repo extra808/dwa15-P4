@@ -9,7 +9,7 @@ class File extends Model
 {
     // many to many relationship with courses
     public function courses() {
-        return $this->belongsToMany('\App\Course')->withTimestamps();;
+        return $this->belongsToMany('\ATC\Course')->withTimestamps();
     }
 
     // mutator to create path based on file name
