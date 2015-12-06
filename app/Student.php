@@ -7,8 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class Student extends Model
 {
     private $rules = array(
-        'initials' => 'required|alpha|min:2',
-        'external_id'  => 'required',
+        'initials' => 'required|alpha|min:2'
+        , 'external_id'  => 'required'
     );
 
     private $errors;
@@ -25,8 +25,6 @@ class Student extends Model
     public function validate($data) {
         // make a new validator object
         $v = \Validator::make($data->all(), $this->rules);
-        // return the result
-        return $v->passes();
 
         // check for failure
         if ($v->fails()) {
