@@ -3,6 +3,7 @@
 namespace ATC\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Session;
 
 use ATC\Http\Requests;
 use ATC\Http\Controllers\Controller;
@@ -14,9 +15,23 @@ class CourseController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($studentId)
     {
-        //
+        // in case student is not found
+        Session::flash('flash_message','Student not found.');
+
+        // get the student
+        $student = \ATC\Student::findOrFail($studentId);
+
+        // student found
+        Session::remove('flash_message');
+
+        $title = 'List '. $student->initials .' Courses';
+
+        // get courses
+        $courses = \ATC\Course::where('student_id', $studentId) ->orderBy('name', 'ASC') ->get();
+
+        return view('course.index') ->withTitle($title) ->withCourses($courses);
     }
 
     /**
@@ -26,7 +41,7 @@ class CourseController extends Controller
      */
     public function create()
     {
-        //
+
     }
 
     /**
@@ -46,9 +61,23 @@ class CourseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($studentId, $id)
     {
-        //
+        // in case it's not found
+        Session::flash('flash_message','Course not found.');
+
+        // get course
+        $course = \ATC\Course::with('files', 'term')->findOrFail($id);
+
+        // student found
+        Session::remove('flash_message');
+
+        $title = 'Show '. $course->name;
+
+ //       $Course = \ATC\Course::where('course_id', $id) ->orderBy('name', 'ASC') ->get();
+
+        return view('course.show') ->withTitle($title) ->withCourse($course);
+//        return view('student.show') ->withTitle($title) ->withCourse($course) ->withFiles($files);
     }
 
     /**

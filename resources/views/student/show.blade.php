@@ -23,9 +23,11 @@
 
     </form>
 
+    <p><a href="{{ $_SERVER['REQUEST_URI'] .'/courses' }}">Courses</a>
+    </p>
     <ul>
     @foreach($courses as $course)
-            <li><a href="{{ $_SERVER['REQUEST_URI'] .'/'. $course->id }}">
+            <li><a href="{{ $_SERVER['REQUEST_URI'] .'/courses/'. $course->id }}">
                 {{ $course->name }}</a>
     @endforeach
     </ul>
