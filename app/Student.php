@@ -29,7 +29,7 @@ class Student extends Model
         // check for failure
         if ($v->fails()) {
             // set errors and return false
-            $this->errors = $v->errors;
+            $this->errors = $v->errors();
             return false;
         }
 
