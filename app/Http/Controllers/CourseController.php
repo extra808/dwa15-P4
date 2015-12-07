@@ -68,7 +68,7 @@ class CourseController extends Controller
             $course->student_id = $studentId;
             $course->save(); // insert new course in table
 
-            return redirect()->action('CourseController@show', [$course]);
+            return redirect()->action('CourseController@show', [$studentId, $course]);
         }
         else {
             $errors = $course->getErrors();
