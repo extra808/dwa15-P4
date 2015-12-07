@@ -8,8 +8,8 @@ class Course extends Model
 {
 //     private $year_min = Carbon\Carbon::now()->year;
 //     private $year_max = Carbon\Carbon::now()->year;
-    private $year_min = 2015-1;
-    private $year_max = 2015+1;
+//     private $year_min = 2015-1;
+//     private $year_max = 2015+1;
 
     private $rules = array(
 //        'year' => 'required|integer|min:'. $this->year_min .'|max:'. $this->year_max
