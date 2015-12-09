@@ -6,18 +6,21 @@ use Illuminate\Database\Eloquent\Model;
 
 class Course extends Model
 {
-//     private $year_min = Carbon\Carbon::now()->year;
-//     private $year_max = Carbon\Carbon::now()->year;
-//     private $year_min = 2015-1;
-//     private $year_max = 2015+1;
-
-    private $rules = array(
-//        'year' => 'required|integer|min:'. $this->year_min .'|max:'. $this->year_max
-        'year' => 'required|integer|min:2014|max:2016'
-        , 'name' => 'required'
-    );
+    private $year_min;
+    private $year_max;
+    private $rules;
 
     private $errors;
+
+    function __construct() {
+        $this->year_min = \Carbon\Carbon::now()->year - 1;
+        $this->year_max = \Carbon\Carbon::now()->year + 1;
+
+        $this->rules = array(
+              'year' => 'required|integer|min:'. $this->year_min .'|max:'. $this->year_max
+            , 'name' => 'required'
+            );
+    }
 
     // many courses may belong to one student
     // inverse of one to many relationship
