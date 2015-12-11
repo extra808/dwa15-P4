@@ -15,3 +15,4 @@ A site for delivering files to student clients of the Assistive Technology Cente
 ## Outside code
 * [Bootstrap Fixed top navbar](http://getbootstrap.com/examples/navbar-fixed-top/)
 * [Trick: Validation within models.](http://daylerees.com/trick-validation-within-models/)
+* [Download File to server from URL](http://stackoverflow.com/questions/3938534/download-file-to-server-from-url)
