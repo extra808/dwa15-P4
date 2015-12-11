@@ -3,22 +3,39 @@
 namespace ATC;
 
 use Illuminate\Database\Eloquent\Model;
-use Hash;
 
 class File extends Model
 {
+    private $rules;
+
+    private $errors;
+
+    function __construct() {
+        $this->rules = array(
+              'uploaded_file' => 'required'
+            );
+    }
     // many to many relationship with courses
     public function courses() {
         return $this->belongsToMany('\ATC\Course')->withTimestamps();
     }
 
-    // mutator to create path based on file name
-    public function setNameAttribute($value) {
-        $this->attributes['name'] = $value;
-        
-        // salt added to prevent path guessing for known file names
-        $salt = 'HAT';
-        $this->attributes['path'] = md5($value . $salt);
+    public function getErrors() {
+        return $this->errors;
     }
 
+    public function validate($data) {
+        // make a new validator object
+        $v = \Validator::make($data->all(), $this->rules);
+
+        // check for failure
+        if ($v->fails()) {
+            // set errors and return false
+            $this->errors = $v->errors();
+            return false;
+        }
+
+        // validation pass
+        return true;
+    }
 }
