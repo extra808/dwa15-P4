@@ -16,7 +16,7 @@
         <input type='hidden' value='{{ csrf_token() }}' name='_token'>
 
         <div class="btn-group" role="group">
-            <a class="btn btn-default" href="{{ $_SERVER['REQUEST_URI'] }}/create">Add File</a>
+            <a class="btn btn-default" href="{{ $_SERVER['REQUEST_URI'] }}/files/create">Add File</a>
             <a class="btn btn-default" href="{{ $_SERVER['REQUEST_URI'] }}/edit">Edit Course</a>
 
             <input class="btn btn-default" type="submit" name="delete" value="Delete">
