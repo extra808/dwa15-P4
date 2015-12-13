@@ -13,18 +13,13 @@ class CourseController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param  int  $studentId
      * @return \Illuminate\Http\Response
      */
     public function index($studentId)
     {
-        // in case student is not found
-        Session::flash('flash_message','Student not found.');
-
         // get the student
-        $student = \ATC\Student::findOrFail($studentId);
-
-        // student found
-        Session::remove('flash_message');
+        $student = $this->getStudentOrFail($studentId);
 
         $title = 'List '. $student->initials .' Courses';
 
@@ -37,10 +32,14 @@ class CourseController extends Controller
     /**
      * Show the form for creating a new resource.
      *
+     * @param  int  $studentId
      * @return \Illuminate\Http\Response
      */
     public function create($studentId)
     {
+        // check the student
+        $this->getStudentOrFail($studentId);
+
         $title = 'Add Course';
  
         $terms = \ATC\Term::all();
@@ -52,11 +51,15 @@ class CourseController extends Controller
     /**
      * Store a newly created resource in storage.
      *
+     * @param  int  $studentId
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store($studentId, Request $request)
     {
+        // check the student
+        $this->getStudentOrFail($studentId);
+
         // store new course
         $course = new \ATC\Course();
 
@@ -80,48 +83,35 @@ class CourseController extends Controller
     /**
      * Display the specified resource.
      *
+     * @param  int  $studentId
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show($studentId, $id)
     {
-        // in case it's not found
-        Session::flash('flash_message','Course not found.');
+        // check the student
+        $this->getStudentOrFail($studentId);
 
-        // get course with its term and its files sorted newest to oldest
-        $course = \ATC\Course::with(['term', 'files' => function ($query) {
-                    $query->orderBy('updated_at', 'ASC');
-                }])->findOrFail($id);
-
-        // student found
-        Session::remove('flash_message');
+        $course = $this->getCourseWithOrFail($id);
 
         $title = 'Show '. $course->name;
 
- //       $Course = \ATC\Course::where('course_id', $id) ->orderBy('name', 'ASC') ->get();
-
         return view('course.show') ->withTitle($title) ->withCourse($course);
-//        return view('student.show') ->withTitle($title) ->withCourse($course) ->withFiles($files);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
+     * @param  int  $studentId
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function edit($studentId, $id)
     {
-        // in case it's not found
-        Session::flash('flash_message','Course not found.');
+        // check the student
+        $this->getStudentOrFail($studentId);
 
-        // get course with its term and its files sorted newest to oldest
-        $course = \ATC\Course::with(['term', 'files' => function ($query) {
-                    $query->orderBy('updated_at', 'ASC');
-                }])->findOrFail($id);
-
-        // student found
-        Session::remove('flash_message');
+        $course = $this->getCourseWithOrFail($id);
 
         $title = 'Edit '. $course->name;
 
@@ -134,23 +124,69 @@ class CourseController extends Controller
     /**
      * Update the specified resource in storage.
      *
+     * @param  int  $studentId
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        //
+        // check the student
+        $this->getStudentOrFail($studentId);
+
     }
 
     /**
      * Remove the specified resource from storage.
      *
+     * @param  int  $studentId
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        //
+        // check the student
+        $this->getStudentOrFail($studentId);
+
+    }
+
+    /**
+     * Get sepecified resource or fail with HTTP 404
+     *
+     * @param  int  $id
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    private function getStudentOrFail($id) {
+        // in case student is not found
+        Session::flash('flash_message','Student not found.');
+
+        // get the student
+        $student = \ATC\Student::findOrFail($id);
+
+        // student found
+        Session::remove('flash_message');
+
+        return $student;
+    }
+
+    /**
+     * Get sepecified resource or fail with HTTP 404
+     *
+     * @param  int  $id
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    private function getCourseWithOrFail($id) {
+        // in case it's not found
+        Session::flash('flash_message','Course not found.');
+
+        // get course with its term and its files sorted newest to oldest
+        $course = \ATC\Course::with(['term', 'files' => function ($query) {
+                    $query->orderBy('updated_at', 'ASC');
+                }])->findOrFail($id);
+
+        // course found
+        Session::remove('flash_message');
+
+        return $course;
     }
 }
