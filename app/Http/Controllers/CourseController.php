@@ -63,7 +63,7 @@ class CourseController extends Controller
         // store new course
         $course = new \ATC\Course();
 
-        // save updates
+        // save course
         if ($course->saveCourse($request, $course, $studentId) ) {
             return redirect()->action('CourseController@show', [$studentId, $course]);
         }

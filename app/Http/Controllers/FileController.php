@@ -13,18 +13,17 @@ class FileController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param  int  $studentId
+     * @param  int  $courseId
      * @return \Illuminate\Http\Response
      */
     public function index($studentId, $courseId)
     {
-        // in case course is not found
-        Session::flash('flash_message','Course not found.');
+        // check the student
+        \ATC\Student::getStudentOrFail($studentId);
 
         // get the course
-        $course = \ATC\Course::with('files') ->findOrFail($courseId);
-
-        // course found
-        Session::remove('flash_message');
+        $course = \ATC\Course::getCourseWithOrFail($courseId);
 
         $title = 'List '. $course->name .' Files';
 
@@ -37,10 +36,18 @@ class FileController extends Controller
     /**
      * Show the form for creating a new resource.
      *
+     * @param  int  $studentId
+     * @param  int  $courseId
      * @return \Illuminate\Http\Response
      */
     public function create($studentId, $courseId)
     {
+        // check the student
+        \ATC\Student::getStudentOrFail($studentId);
+
+        // check the course
+        \ATC\Course::getCourseWithOrFail($courseId);
+
         $title = 'Add File';
  
         return view('file.create') ->withTitle($title) ->withStudent($studentId) 
@@ -50,59 +57,57 @@ class FileController extends Controller
     /**
      * Store a newly created resource in storage.
      *
+     * @param  int  $studentId
+     * @param  int  $courseId
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store($studentId, $courseId, Request $request)
     {
-        // store new file
-        $file = new \ATC\File();
+        // check the student
+        \ATC\Student::getStudentOrFail($studentId);
 
-        // attempt validation
-        if ($file->validate($request) ) {
-            $file->name = $request->file('uploaded_file')->getClientOriginalName();
-            $file->type = $request->file('uploaded_file')->getClientOriginalExtension();
-            $file->path = Session::getId();
-            $file->save(); // insert new file in table
+        // check the course
+        \ATC\Course::getCourseWithOrFail($courseId);
 
-            // save association between file and course
-            $file->courses()->sync(array($courseId) );
+        // create new file or find existing file with same name and 
+        // same path, i.e. uploaded in same session
+        $file = \ATC\File::firstOrNew([
+              'name' => $request->file('uploaded_file')->getClientOriginalName()
+            , 'path' => Session::getId()
+            ]);
 
-            // move uploaded file to permanent location
-            // path is uploader's session id so if they upload a file with the same name
-            // in the same session it will be overwritten but users in other sessions
-            // can upload files with the same name without uploading
-            $destinationPath = storage_path() .'/files/'. $file->path;
-            $request->file('uploaded_file')->move($destinationPath, $file->name );
-
+        // save file
+        if($file->saveFile($request, $studentId, $courseId) ) {
             return redirect()->action('FileController@show', 
                 [$studentId, $courseId, $file]);
         }
         else {
-            $errors = $file->getErrors();
-            Session::flash('flash_message', $errors);
             return back()->withInput();
         }
+
     }
 
     /**
      * Display the specified resource.
      *
+     * @param  int  $studentId
+     * @param  int  $courseId
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show($studentId, $courseId, $id)
     {
+        // check the student
+        \ATC\Student::getStudentOrFail($studentId);
+
+        // check the course
+        \ATC\Course::getCourseWithOrFail($courseId);
+
         $title = 'Show File';
 
-        // in case it's not found
-        Session::flash('flash_message','File not found.');
-
-        // get a student
-        $file = \ATC\File::findOrFail($id);
-
-        // student found
-        Session::remove('flash_message');
+        // get a file
+        $file = \ATC\File::getFileOrFail($id);
 
         return view('file.show') ->withTitle($title) ->withFile($file);
     }
@@ -110,34 +115,97 @@ class FileController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
+     * @param  int  $studentId
+     * @param  int  $courseId
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($studentId, $courseId, $id)
     {
-        //
+        // check the student
+        \ATC\Student::getStudentOrFail($studentId);
+
+        // check the course
+        \ATC\Course::getCourseWithOrFail($courseId);
+
+        // get a file
+        $file = \ATC\File::getFileOrFail($id);
+
+        $title = 'Edit '. $file->name;
+
+        return view('file.edit') ->withTitle($title) ->withStudent($studentId) 
+            ->withCourse($courseId) ->withFile($file);
     }
 
     /**
      * Update the specified resource in storage.
      *
+     * @param  int  $studentId
+     * @param  int  $courseId
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update($studentId, $courseId, Request $request, $id)
     {
-        //
+        // check the student
+        \ATC\Student::getStudentOrFail($studentId);
+
+        // check the course
+        \ATC\Course::getCourseWithOrFail($courseId);
+
+        $file = \ATC\File::getFileOrFail($id);
+
+        // save file
+        if($file->saveFile($request, $studentId, $courseId) ) {
+            return redirect()->action('FileController@show', 
+                [$studentId, $courseId, $file]);
+        }
+        else {
+            return back()->withInput();
+        }
+
     }
 
     /**
      * Remove the specified resource from storage.
      *
+     * @param  int  $studentId
+     * @param  int  $courseId
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($studentId, $courseId, $id)
     {
-        //
+        // check the student
+        \ATC\Student::getStudentOrFail($studentId);
+
+        // check the course
+        \ATC\Course::getCourseWithOrFail($courseId);
+
+        $file = \ATC\File::getFileOrFail($id);
+
+        $destinationPath = storage_path() .'/files/'. $file->path;
+        // delete file from filesystem
+        if(unlink($destinationPath .'/'. $file->name) ) {
+            // check if file was the only one in  directory
+            $numFilesInDir = count(scandir($destinationPath) );
+            // are there any files? '.' '..' count as files to scandir
+            if ($numFilesInDir <= 2) {
+                rmdir($destinationPath);
+            }
+
+            // delete file, will cascade to delete relations to files
+            $file->delete();
+
+            Session::flash('flash_message', $file->name.' deleted');
+        }
+        else {
+            Session::flash('flash_message', $file->name.' <strong>NOT</strong> deleted');
+        }
+
+        // go to list view
+        return redirect()->action('CourseController@show', [$studentId, $courseId]);
     }
+
 }

@@ -86,7 +86,6 @@ class Course extends Model
      * Save sepecified resource or set errors
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param \Illuminate\Database\Eloquent\Model $course
      * @param  int  $studentId
      * @return boolean
      */
