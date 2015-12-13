@@ -70,8 +70,13 @@ class File extends Model
             $this->path = Session::getId();
             $destinationPath = storage_path() .'/files/'. $this->path;
 
+            // totally new file?
+            if($this->name == NULL) {
+                // set file name in record
+                $this->name = $uploadName;
+            }
             // does new file have a different name?
-            if($this->name != $uploadName) {
+            elseif($this->name != $uploadName) {
                 // delete old file
                 unlink($destinationPath .'/'. $this->name);
                 // change file name in record
