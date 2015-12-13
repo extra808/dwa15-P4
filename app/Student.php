@@ -3,6 +3,7 @@
 namespace ATC;
 
 use Illuminate\Database\Eloquent\Model;
+use Session;
 
 class Student extends Model
 {
@@ -35,5 +36,24 @@ class Student extends Model
 
         // validation pass
         return true;
+    }
+
+    /**
+     * Get sepecified resource or fail with HTTP 404
+     *
+     * @param  int  $id
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    public static function getStudentOrFail($id) {
+        // in case student is not found
+        Session::flash('flash_message','Student not found.');
+
+        // get the student
+        $student = \ATC\Student::findOrFail($id);
+
+        // student found
+        Session::remove('flash_message');
+
+        return $student;
     }
 }

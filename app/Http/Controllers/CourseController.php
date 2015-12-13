@@ -19,7 +19,7 @@ class CourseController extends Controller
     public function index($studentId)
     {
         // get the student
-        $student = $this->getStudentOrFail($studentId);
+        $student = \ATC\Student::getStudentOrFail($studentId);
 
         $title = 'List '. $student->initials .' Courses';
 
@@ -38,7 +38,7 @@ class CourseController extends Controller
     public function create($studentId)
     {
         // check the student
-        $this->getStudentOrFail($studentId);
+        \ATC\Student::getStudentOrFail($studentId);
 
         $title = 'Add Course';
  
@@ -58,7 +58,7 @@ class CourseController extends Controller
     public function store($studentId, Request $request)
     {
         // check the student
-        $this->getStudentOrFail($studentId);
+        \ATC\Student::getStudentOrFail($studentId);
 
         // store new course
         $course = new \ATC\Course();
@@ -82,7 +82,7 @@ class CourseController extends Controller
     public function show($studentId, $id)
     {
         // check the student
-        $this->getStudentOrFail($studentId);
+        \ATC\Student::getStudentOrFail($studentId);
 
         $course = $this->getCourseWithOrFail($id);
 
@@ -101,7 +101,7 @@ class CourseController extends Controller
     public function edit($studentId, $id)
     {
         // check the student
-        $this->getStudentOrFail($studentId);
+        \ATC\Student::getStudentOrFail($studentId);
 
         $course = $this->getCourseWithOrFail($id);
 
@@ -124,7 +124,7 @@ class CourseController extends Controller
     public function update($studentId, Request $request, $id)
     {
         // check the student
-        $this->getStudentOrFail($studentId);
+        \ATC\Student::getStudentOrFail($studentId);
 
         $course = $this->getCourseWithOrFail($id);
 
@@ -147,7 +147,7 @@ class CourseController extends Controller
     public function destroy($studentId, $id)
     {
         // check the student
-        $this->getStudentOrFail($studentId);
+        \ATC\Student::getStudentOrFail($studentId);
 
         $course = $this->getCourseWithOrFail($id);
 
@@ -158,25 +158,6 @@ class CourseController extends Controller
 
         // go to list view
         return redirect()->action('StudentController@show', [$studentId]);
-    }
-
-    /**
-     * Get sepecified resource or fail with HTTP 404
-     *
-     * @param  int  $id
-     * @return \Illuminate\Database\Eloquent\Model
-     */
-    private function getStudentOrFail($id) {
-        // in case student is not found
-        Session::flash('flash_message','Student not found.');
-
-        // get the student
-        $student = \ATC\Student::findOrFail($id);
-
-        // student found
-        Session::remove('flash_message');
-
-        return $student;
     }
 
     /**
