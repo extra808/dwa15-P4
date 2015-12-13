@@ -64,7 +64,7 @@ class CourseController extends Controller
         $course = new \ATC\Course();
 
         // save updates
-        if ($this->saveCourse($request, $course, $studentId) ) {
+        if ($course->saveCourse($request, $course, $studentId) ) {
             return redirect()->action('CourseController@show', [$studentId, $course]);
         }
         else {
@@ -84,7 +84,7 @@ class CourseController extends Controller
         // check the student
         \ATC\Student::getStudentOrFail($studentId);
 
-        $course = $this->getCourseWithOrFail($id);
+        $course = \ATC\Course::getCourseWithOrFail($id);
 
         $title = 'Show '. $course->name;
 
@@ -103,7 +103,7 @@ class CourseController extends Controller
         // check the student
         \ATC\Student::getStudentOrFail($studentId);
 
-        $course = $this->getCourseWithOrFail($id);
+        $course = \ATC\Course::getCourseWithOrFail($id);
 
         $title = 'Edit '. $course->name;
 
@@ -126,10 +126,10 @@ class CourseController extends Controller
         // check the student
         \ATC\Student::getStudentOrFail($studentId);
 
-        $course = $this->getCourseWithOrFail($id);
+        $course = \ATC\Course::getCourseWithOrFail($id);
 
         // save updates
-        if ($this->saveCourse($request, $course, $studentId) ) {
+        if ($course->saveCourse($request, $studentId) ) {
             return redirect()->action('CourseController@show', [$studentId, $course]);
         }
         else {
@@ -149,7 +149,7 @@ class CourseController extends Controller
         // check the student
         \ATC\Student::getStudentOrFail($studentId);
 
-        $course = $this->getCourseWithOrFail($id);
+        $course = \ATC\Course::getCourseWithOrFail($id);
 
         // delete course, will cascade to delete relations to files
         $course->delete();
@@ -160,52 +160,4 @@ class CourseController extends Controller
         return redirect()->action('StudentController@show', [$studentId]);
     }
 
-    /**
-     * Get sepecified resource or fail with HTTP 404
-     *
-     * @param  int  $id
-     * @return \Illuminate\Database\Eloquent\Model
-     */
-    private function getCourseWithOrFail($id) {
-        // in case it's not found
-        Session::flash('flash_message','Course not found.');
-
-        // get course with its term and its files sorted newest to oldest
-        $course = \ATC\Course::with(['term', 'files' => function ($query) {
-                    $query->orderBy('updated_at', 'ASC');
-                }])->findOrFail($id);
-
-        // course found
-        Session::remove('flash_message');
-
-        return $course;
-    }
-
-    /**
-     * Save sepecified resource or set errors
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param \Illuminate\Database\Eloquent\Model $course
-     * @param  int  $studentId
-     * @return boolean
-     */
-    private function saveCourse(Request $request, $course, $studentId) {
-        // attempt validation
-        if ($course->validate($request) ) {
-            $course->year = $request->year;
-            $course->term_id = $request->term;
-            $course->name = $request->name;
-            $course->student_id = $studentId;
-            $course->save(); // update course in table
-
-            return true;
-//            return redirect()->action('CourseController@show', [$studentId, $course]);
-        }
-        else {
-            $errors = $course->getErrors();
-            Session::flash('flash_message', $errors);
-            return false;
-//            return back()->withInput();
-        }
-    }
 }

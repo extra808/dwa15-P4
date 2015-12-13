@@ -2,7 +2,9 @@
 
 namespace ATC;
 
+use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
+use Session;
 
 class Course extends Model
 {
@@ -56,5 +58,53 @@ class Course extends Model
 
         // validation pass
         return true;
+    }
+
+    /**
+     * Get sepecified resource or fail with HTTP 404
+     *
+     * @param  int  $id
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    public static function getCourseWithOrFail($id) {
+        // in case it's not found
+        Session::flash('flash_message','Course not found.');
+
+        // get course with its term and its files sorted newest to oldest
+        $course = \ATC\Course::with(['term', 'files' => function ($query) {
+                    $query->orderBy('updated_at', 'ASC');
+                }])->findOrFail($id);
+
+        // course found
+        Session::remove('flash_message');
+
+        return $course;
+    }
+
+
+    /**
+     * Save sepecified resource or set errors
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Database\Eloquent\Model $course
+     * @param  int  $studentId
+     * @return boolean
+     */
+    public function saveCourse(Request $request, $studentId) {
+        // attempt validation
+        if ($this->validate($request) ) {
+            $this->year = $request->year;
+            $this->term_id = $request->term;
+            $this->name = $request->name;
+            $this->student_id = $studentId;
+            $this->save(); // update course in table
+
+            return true;
+        }
+        else {
+            $errors = $this->getErrors();
+            Session::flash('flash_message', $errors);
+            return false;
+        }
     }
 }
