@@ -63,19 +63,11 @@ class CourseController extends Controller
         // store new course
         $course = new \ATC\Course();
 
-        // attempt validation
-        if ($course->validate($request) ) {
-            $course->year = $request->year;
-            $course->term_id = $request->term;
-            $course->name = $request->name;
-            $course->student_id = $studentId;
-            $course->save(); // insert new course in table
-
+        // save updates
+        if ($this->saveCourse($request, $course, $studentId) ) {
             return redirect()->action('CourseController@show', [$studentId, $course]);
         }
         else {
-            $errors = $course->getErrors();
-            Session::flash('flash_message', $errors);
             return back()->withInput();
         }
     }
@@ -129,11 +121,20 @@ class CourseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update($studentId, Request $request, $id)
     {
         // check the student
         $this->getStudentOrFail($studentId);
 
+        $course = $this->getCourseWithOrFail($id);
+
+        // save updates
+        if ($this->saveCourse($request, $course, $studentId) ) {
+            return redirect()->action('CourseController@show', [$studentId, $course]);
+        }
+        else {
+            return back()->withInput();
+        }
     }
 
     /**
@@ -188,5 +189,33 @@ class CourseController extends Controller
         Session::remove('flash_message');
 
         return $course;
+    }
+
+    /**
+     * Save sepecified resource or set errors
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Database\Eloquent\Model $course
+     * @param  int  $studentId
+     * @return boolean
+     */
+    private function saveCourse(Request $request, $course, $studentId) {
+        // attempt validation
+        if ($course->validate($request) ) {
+            $course->year = $request->year;
+            $course->term_id = $request->term;
+            $course->name = $request->name;
+            $course->student_id = $studentId;
+            $course->save(); // update course in table
+
+            return true;
+//            return redirect()->action('CourseController@show', [$studentId, $course]);
+        }
+        else {
+            $errors = $course->getErrors();
+            Session::flash('flash_message', $errors);
+            return false;
+//            return back()->withInput();
+        }
     }
 }
