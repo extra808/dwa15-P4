@@ -65,7 +65,9 @@ class File extends Model
     public function saveFile(Request $request, $studentId, $courseId) {
         // attempt validation
         if ($this->validate($request) ) {
-            $uploadName = $request->file('uploaded_file')->getClientOriginalName();
+            // convert filename to ASCII
+            $uploadName = iconv('UTF-8', 'ASCII//TRANSLIT', $request->file('uploaded_file') ->getClientOriginalName() );
+            $uploadType = iconv('UTF-8', 'ASCII//TRANSLIT', $request->file('uploaded_file') ->getClientOriginalExtension() );
 
             $this->path = Session::getId();
             $destinationPath = storage_path() .'/files/'. $this->path;
@@ -83,7 +85,7 @@ class File extends Model
                 $this->name = $uploadName;
             }
 
-            $this->type = $request->file('uploaded_file')->getClientOriginalExtension();
+            $this->type = $uploadType;
             $this->save(); // insert file in table
 
             // save association between file and course
