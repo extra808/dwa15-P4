@@ -18,3 +18,4 @@ A site for delivering files to student clients of the Assistive Technology Cente
 * [Trick: Validation within models.](http://daylerees.com/trick-validation-within-models/)
 * [Download File to server from URL](http://stackoverflow.com/questions/3938534/download-file-to-server-from-url)
 * [PHP: What is the best and easiest way to check if directory is empty or not](http://stackoverflow.com/questions/18685576/php-what-is-the-best-and-easiest-way-to-check-if-directory-is-empty-or-not)
+* [adamwathan/eloquent-oauth-l5](https://github.com/adamwathan/eloquent-oauth-l5)

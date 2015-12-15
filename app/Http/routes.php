@@ -11,6 +11,17 @@
 |
 */
 
+Route::get('google/authorize', function() {
+    return SocialAuth::authorize('google');
+});
+
+Route::get('google/login', function() {
+    SocialAuth::login('google', function ($user, $userDetails) {
+        dd($userDetails);
+    });
+    return 'Google authorized';
+});
+
 Route::get('/', function () {
     return view('layouts.master');
 });
