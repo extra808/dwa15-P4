@@ -14,6 +14,7 @@ return [
 			'client_secret' => 'rHVu_izI_zQoYDiU6e7i-jbL',
 			'redirect_uri' => 'http://p4-loc.dwa15.cognize.org/google/login',
 			'scope' => [],
+			'hd' => 'cognize.org',
 		],
 		'github' => [
 			'client_id' => '12345678',
