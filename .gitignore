@@ -4,4 +4,4 @@ Homestead.yaml
 Homestead.json
 .env
 /storage/files
-config/eloquent-oauth
+config/eloquent-oauth.php
