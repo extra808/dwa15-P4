@@ -69,16 +69,16 @@ class File extends Model
             $uploadName = iconv('UTF-8', 'ASCII//TRANSLIT', $request->file('uploaded_file') ->getClientOriginalName() );
             $uploadType = iconv('UTF-8', 'ASCII//TRANSLIT', $request->file('uploaded_file') ->getClientOriginalExtension() );
 
-            $this->path = Session::getId();
-            $destinationPath = storage_path() .'/files/'. $this->path;
-
             // totally new file?
             if($this->name == NULL) {
                 // set file name in record
                 $this->name = $uploadName;
+                // use session id as path
+                $this->path = Session::getId();
             }
             // does new file have a different name?
             elseif($this->name != $uploadName) {
+                $unlinkPath = storage_path() .'/files/'. $this->path;
                 // delete old file
                 unlink($destinationPath .'/'. $this->name);
                 // change file name in record
@@ -91,6 +91,8 @@ class File extends Model
             // save association between file and course
             $this->courses()->sync(array($courseId) );
 
+            $destinationPath = storage_path() .'/files/'. $this->path;
+
             // move uploaded file to permanent location
             // path is uploader's session id so if they upload a file with the same name
             // in the same session it will be overwritten but users in other sessions
@@ -99,7 +101,7 @@ class File extends Model
 
             return true;
 
-            return redirect()->action('FileController@show', 
+            return redirect()->action('FileController@edit', 
                 [$studentId, $courseId, $file]);
         }
         else {
