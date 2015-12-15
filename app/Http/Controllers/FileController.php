@@ -79,7 +79,7 @@ class FileController extends Controller
 
         // save file
         if($file->saveFile($request, $studentId, $courseId) ) {
-            return redirect()->action('FileController@show', 
+            return redirect()->action('FileController@edit', 
                 [$studentId, $courseId, $file]);
         }
         else {
@@ -104,12 +104,11 @@ class FileController extends Controller
         // check the course
         \ATC\Course::getCourseWithOrFail($courseId);
 
-        $title = 'Show File';
-
         // get a file
         $file = \ATC\File::getFileOrFail($id);
 
-        return view('file.show') ->withTitle($title) ->withFile($file);
+        // download file
+        return response()->download($destinationPath = storage_path() .'/files/'. $file->path .'/'. $file->name);
     }
 
     /**
@@ -158,7 +157,7 @@ class FileController extends Controller
 
         // save file
         if($file->saveFile($request, $studentId, $courseId) ) {
-            return redirect()->action('FileController@show', 
+            return redirect()->action('FileController@edit', 
                 [$studentId, $courseId, $file]);
         }
         else {
