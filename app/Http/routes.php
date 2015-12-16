@@ -18,13 +18,13 @@ Route::get('/authorize', function() {
 Route::get('google/login', function() {
     $userDeets;
     SocialAuth::login('google', function ($user, $userDetails) {
-        if($userDetails->email == 'cwilcox@cognize.org') {
+        // "host domain" account must match
+        if($userDetails->raw->hd == 'cognize.org') {
             dd($userDetails);
         }
         else {
             Session::flash('flash_message', $userDetails->email .' not allowed to access this application');
             abort(403, 'Forbbiden');
- 
         }
     });
     return 'Google authorized';
