@@ -19,7 +19,7 @@ Route::get('google/login', function() {
     $userDeets;
     SocialAuth::login('google', function ($user, $userDetails) {
         // "host domain" account must match
-        if($userDetails->raw->hd == 'cognize.org') {
+        if($userDetails->raw['hd'] == 'cognize.org') {
             dd($userDetails);
         }
         else {
