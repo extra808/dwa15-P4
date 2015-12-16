@@ -11,7 +11,7 @@
 |
 */
 
-Route::get('google/authorize', function() {
+Route::get('/authorize', function() {
     return SocialAuth::authorize('google');
 });
 
