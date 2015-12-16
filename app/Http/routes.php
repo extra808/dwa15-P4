@@ -22,7 +22,7 @@ Route::get('google/login', function() {
             dd($userDetails);
         }
         else {
-            Session::flash('flash_message','$userDetails->email not allowed to access this application');
+            Session::flash('flash_message', $userDetails->email .' not allowed to access this application');
             abort(403, 'Forbbiden');
  
         }
