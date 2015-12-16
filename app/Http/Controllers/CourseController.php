@@ -68,7 +68,7 @@ class CourseController extends Controller
             return redirect()->action('CourseController@show', [$studentId, $course]);
         }
         else {
-            return back()->withInput();
+            abort(401, 'You can\'t do that');
         }
     }
 
