@@ -16,8 +16,15 @@ Route::get('google/authorize', function() {
 });
 
 Route::get('google/login', function() {
+    $userDeets;
     SocialAuth::login('google', function ($user, $userDetails) {
-        dd($userDetails);
+        if($userDetails->email == 'cwilcox@cognize.org') {
+            dd($userDetails);
+        }
+        else {
+            abort(401, 'You can\'t do that');
+ 
+        }
     });
     return 'Google authorized';
 });
