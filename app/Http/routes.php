@@ -22,7 +22,8 @@ Route::get('google/login', function() {
             dd($userDetails);
         }
         else {
-            abort(401, 'You can\'t do that');
+            Session::flash('flash_message','$userDetails->email not allowed to access this application');
+            abort(403, 'Forbbiden');
  
         }
     });
