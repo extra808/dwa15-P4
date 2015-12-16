@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('title')
-{{ $title or '401' }}
+{{ $title or '403' }}
 @endsection
 
 @section('content')
@@ -9,7 +9,7 @@
     @if(\Session::has('flash_message') )
         {{ \Session::get('flash_message') }}
     @else
-        Unauthorized
+        403 Forbidden
     @endif
     </h1>
 
