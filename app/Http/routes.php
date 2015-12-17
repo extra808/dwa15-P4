@@ -20,6 +20,11 @@ Route::get('google/login', function() {
     SocialAuth::login('google', function ($user, $userDetails) {
         // "host domain" account must match
         if($userDetails->raw['hd'] == 'cognize.org') {
+            $user->nickname = $userDetails->nickname;
+            $user->name = $userDetails->full_name;
+            $user->profile_image = $userDetails->avatar;
+            $user->save();
+
             dd($userDetails);
         }
         else {
