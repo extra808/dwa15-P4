@@ -66,9 +66,9 @@ $sitetitle = 'ATC Delivery';
             </li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="/authorize">Login with Google</a></li>
+            <li><a href="/google/authorize">Login with Google</a></li>
             <li><a href="https://accounts.google.com/logout">Logout of Google</a></li>
-            <li class="active"><a href="./">Fixed top <span class="sr-only">(current)</span></a></li>
+            <li><a href="/github/authorize">Login with Github</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
