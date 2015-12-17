@@ -22,6 +22,8 @@ Route::get('google/login', function() {
             if($userDetails->raw['hd'] == 'cognize.org') {
                 $user->name = $userDetails->full_name;
                 $user->save();
+            }
+        });
     }
     catch (ApplicationRejectedException $e) {
         // User rejected application
