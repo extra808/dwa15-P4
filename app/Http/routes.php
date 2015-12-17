@@ -1,5 +1,8 @@
 <?php
 
+use SocialNorm\Exceptions\ApplicationRejectedException;
+use SocialNorm\Exceptions\InvalidAuthorizationCodeException;
+
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -17,14 +20,44 @@ Route::get('/github/authorize', function() {
 
 Route::get('github/login', function() {
     try {
-        SocialAuth::login('google', function ($user, $userDetails) {
-            dd($user);
-            dd($userDetails);
-            // "host domain" account must match
-//             if($userDetails->raw['hd'] == 'cognize.org') {
-//                 $user->name = $userDetails->full_name;
+        SocialAuth::login('github', function ($user, $userDetails) {
+
+            $nameCheck = '';
+            $userCheck;
+            // get authenticated user's name
+            if($userDetails->full_name) {
+                $nameCheck = $userDetails->full_name;
+            }
+            else {
+                $nameCheck = $userDetails->nickname;
+            }
+
+            // is name in database?
+            if ($userCheck = \ATC\User::where('name', '=', $nameCheck) ->first() ) {
+                if ($userCheck->name == 'extra808') {
+                    $user->email = $userDetails->email;
+                    $user->save();
+                }
+                else {
+                    Session::flash('flash_message', 'You are not staff');
+                    abort(403, 'Forbbiden');
+                }
+            }
+            else {
+                Session::flash('flash_message', 'No such user');
+                abort(403, 'Forbbiden');
+            }
+
+//dd($nameCheck);            
+//             if ($nameCheck->name == 'extra808') {
+//                 $user->email = $userDetails->email;
 //                 $user->save();
 //             }
+//             else {
+//                 Session::flash('flash_message', 'You are not staff');
+//                 abort(403, 'Forbbiden');
+//             }
+
         });
     }
     catch (ApplicationRejectedException $e) {
