@@ -107,12 +107,10 @@ Route::get('/', function () {
         $studentController = new ATC\Http\Controllers\StudentController;
         return $studentController->show($student);
     }
-    // staff home page
+    // staff home page, lists students
     else {
         $studentController = new ATC\Http\Controllers\StudentController;
         return $studentController->index();
-        // staff & guest home page
-//        return view('layouts.master');
     }
 });
 
