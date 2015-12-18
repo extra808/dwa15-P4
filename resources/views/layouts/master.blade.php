@@ -45,6 +45,11 @@ $sitetitle = 'ATC Delivery';
             <span class="icon-bar"></span>
           </button>
           <a class="navbar-brand" href="#">{{ $sitetitle }}</a>
+
+        @if(Auth::check() )
+            <p class="navbar-text">Hello, {{ Auth::user()->name }}
+            </p>
+        @endif
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           @if(Auth::check() && Auth::user()->role == 'staff')
@@ -65,10 +70,6 @@ $sitetitle = 'ATC Delivery';
                 <li><a href="https://accounts.google.com/logout">Logout of Google</a></li>
           </ul>
         </div><!--/.nav-collapse -->
-        @if(Auth::check() )
-        <div>Hello, {{ Auth::user()->name }}
-        </div>
-        @endif
       </div>
 
     </nav>
