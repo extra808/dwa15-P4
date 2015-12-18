@@ -1,3 +1,8 @@
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
 
 @import "ie10-viewport-bug-workaround";
+
+/* default visited link purple */
+.download-file a:visited {
+    color: #551A8B;
+}

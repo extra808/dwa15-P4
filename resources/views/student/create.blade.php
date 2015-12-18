@@ -12,7 +12,10 @@
 
 @include('student.input')
 
-        <input class="btn btn-submit" type="submit" name="add" value="Add Student">
+        <div class="row">
+            <input class="btn btn-primary" type="submit" name="add" value="Add Student">
+             <a class="btn btn-default" href="/">Cancel</a>
+       </div>
     </form>
 
 @stop

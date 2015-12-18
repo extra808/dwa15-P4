@@ -8326,3 +8326,9 @@ button.close {
 @viewport {
   width: device-width;
 }
+
+/* default visited link purple */
+
+.download-file a:visited {
+  color: #551A8B;
+}

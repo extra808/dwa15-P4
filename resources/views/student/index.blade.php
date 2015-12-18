@@ -9,7 +9,7 @@
 
     <ul>
     @foreach($students as $student)
-            <li><a href="{{ $_SERVER['REQUEST_URI'] .'/'. $student->id }}">
+            <li><a href="{{ '/students/'. $student->id }}">
                 {{ $student->initials }}</a>
     @endforeach
     </ul>

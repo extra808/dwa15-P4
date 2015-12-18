@@ -9,7 +9,6 @@
 
     <form action="/students/{{ $student }}/courses/{{ $course }}/files" method="POST" enctype="multipart/form-data">
         <input type='hidden' value='{{ csrf_token() }}' name='_token'>
-
         <div class="row">
             <div class="input-group">
                 <label class="input-group-addon" for="uploaded_file">File</label>
@@ -18,7 +17,10 @@
 
         </div>
 
-        <input class="btn btn-submit" type="submit" name="add" value="Upload File">
+        <div class="row">
+            <input class="btn btn-primary" type="submit" name="add" value="Upload File">
+            <a class="btn btn-default" href="..">Cancel</a>
+       </div>
     </form>
 
 @stop

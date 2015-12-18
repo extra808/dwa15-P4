@@ -11,7 +11,7 @@
     @if(Auth::check() && Auth::user()->role == 'staff')
     <h1>{{ $student->initials or '' }}</h1>
 
-    <p>Last Modified: {{ $student->updated_at }}<br>
+    <p>Last Modified: {{ $student->updated_at->timezone('America/New_York')->format('g:i a M d') }}
     </p>
 
         <form action="{{ $_SERVER['REQUEST_URI'] }}" method="POST">
@@ -19,10 +19,12 @@
             <input type='hidden' value='{{ csrf_token() }}' name='_token'>
 
             <div class="btn-group" role="group">
-                <a class="btn btn-default" href="{{ $_SERVER['REQUEST_URI'] }}/courses/create">Add Course</a>
-                <a class="btn btn-default" href="{{ $_SERVER['REQUEST_URI'] }}/edit">Edit</a>
+                <a class="btn btn-primary" href="{{ $_SERVER['REQUEST_URI'] }}/courses/create">Add Course</a>
+                <a class="btn btn-warning" href="{{ $_SERVER['REQUEST_URI'] }}/edit">Edit</a>
 
-                <input class="btn btn-default" type="submit" name="delete" value="Delete">
+                <button class="btn btn-danger" type="submit" name="delete {{ $student->name }}">
+                    Delete <span class="sr-only">{{ $student->name }}</span>
+                </button>
             </div>
 
         </form>
