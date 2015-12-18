@@ -207,4 +207,18 @@ class FileController extends Controller
         return redirect()->action('CourseController@show', [$studentId, $courseId]);
     }
 
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $courseId
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function showStudentCourseFile($courseId, $id)
+    {
+        // get id of logged in student
+        $studentId = \ATC\Student::where('external_id', '=', \Auth::user()->email)->get() ->first() ->id;
+
+        return $this->show($studentId, $courseId, $id);
+    }
 }

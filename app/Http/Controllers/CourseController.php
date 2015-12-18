@@ -160,4 +160,18 @@ class CourseController extends Controller
         return redirect()->action('StudentController@show', [$studentId]);
     }
 
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function showStudentCourse($id)
+    {
+        // get id of logged in student
+        $studentId = \ATC\Student::where('external_id', '=', \Auth::user()->email)->get() ->first() ->id;
+
+        return $this->show($studentId, $id);
+    }
+    
 }
