@@ -2,7 +2,7 @@
 
 @import "ie10-viewport-bug-workaround";
 
-/* default visited link purple */
-.download-file a:visited {
-    color: #551A8B;
+/* style links in first column of table only*/
+.download-file tr td:first-child a:visited {
+    color: #551A8B; /* default visited link purple */
 }

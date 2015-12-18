@@ -32,9 +32,6 @@
         </form>
     @endif
 
-    <p><a href="{{ $_SERVER['REQUEST_URI'] .'/files' }}">Files</a>
-    </p>
-
     <table class="download-file">
     <thead>
     <tr>

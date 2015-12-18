@@ -9,10 +9,10 @@
 
 @section('content')
     @if(Auth::check() && Auth::user()->role == 'staff')
-    <h1>{{ $student->initials or '' }}</h1>
+        <h1>{{ $student->initials or '' }}</h1>
 
-    <p>Last Modified: {{ $student->updated_at->timezone('America/New_York')->format('g:i a M d') }}
-    </p>
+        <p>Last Modified: {{ $student->updated_at->timezone('America/New_York')->format('g:i a M d') }}
+        </p>
 
         <form action="{{ $_SERVER['REQUEST_URI'] }}" method="POST">
             <input type="hidden" name="_method" value="DELETE">
@@ -28,10 +28,11 @@
             </div>
 
         </form>
+    @else
+        <h1>{{ Auth::user()->name }}</h1>
     @endif
 
-    <p><a href="{{ $_SERVER['REQUEST_URI'] .'/courses' }}">Courses</a>
-    </p>
+    <h2>Courses</h2>
     <ul>
     @foreach($courses as $course)
             <li><a href="{{ $_SERVER['REQUEST_URI'] .'/courses/'. $course->id }}">
