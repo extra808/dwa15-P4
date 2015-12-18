@@ -12,6 +12,16 @@ class StaffTableSeeder extends Seeder
      */
     public function run()
     {
+        $staff = new \ATC\Staff();
+        $staff->name = 'Curtis Wilcox';
+        $staff->external_id = 'cwilcox@cognize.org';
+        $staff->save();
+
+        $staff = new \ATC\Staff();
+        $staff->name = 'Jill';
+        $staff->external_id = 'jill@cognize.org';
+        $staff->save();
+
         // number of records to create
         $numRows = 7;
 

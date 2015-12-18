@@ -47,17 +47,6 @@ Route::get('github/login', function() {
                 Session::flash('flash_message', 'No such user');
                 abort(403, 'Forbbiden');
             }
-
-//dd($nameCheck);            
-//             if ($nameCheck->name == 'extra808') {
-//                 $user->email = $userDetails->email;
-//                 $user->save();
-//             }
-//             else {
-//                 Session::flash('flash_message', 'You are not staff');
-//                 abort(403, 'Forbbiden');
-//             }
-
         });
     }
     catch (ApplicationRejectedException $e) {
@@ -85,13 +74,33 @@ Route::get('/google/authorize', function() {
     return SocialAuth::authorize('google');
 });
 
-Route::get('google/login', function() {
+Route::get('/google/login', function() {
     try {
         SocialAuth::login('google', function ($user, $userDetails) {
-            // "host domain" account must match
+            // is "host domain" correct?
             if($userDetails->raw['hd'] == 'cognize.org') {
-                $user->name = $userDetails->full_name;
-                $user->save();
+                // is user staff?
+                if ($staffCheck = \ATC\Staff::where('external_id', '=', $userDetails->email) ->first() ) {
+                    $user->email = $userDetails->email;
+                    $user->name = $userDetails->full_name;
+                    $user->role = 'staff';
+                    $user->save();
+                }
+                // is user student?
+                elseif ($studentCheck = \ATC\Student::where('external_id', '=', $userDetails->email) ->first() ) {
+                    $user->email = $userDetails->email;
+                    $user->name = $userDetails->full_name;
+                    $user->role = 'student';
+                    $user->save();
+                }
+                else {
+                    Session::flash('flash_message', 'No such user');
+                    abort(403, 'Forbbiden');
+                }
+            }
+            else {
+                Session::flash('flash_message', 'Domain not allowed');
+                abort(403, 'Forbbiden');
             }
         });
     }
@@ -108,10 +117,7 @@ Route::get('google/login', function() {
     }
 
     // Current user is now available via Auth facade
-    $user = Auth::user();
-
-    dd($user);
-    dd($userDetails);
+//    $user = Auth::user();
 
     return Redirect::intended();
 });

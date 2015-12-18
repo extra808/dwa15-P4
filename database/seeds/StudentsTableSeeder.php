@@ -12,6 +12,11 @@ class StudentsTableSeeder extends Seeder
      */
     public function run()
     {
+        $student = new \ATC\Student();
+        $student->initials = 'JAM';
+        $student->external_id = 'jamal@cognize.org';
+        $student->save();
+
         // number of records to create
         $numRows = 20;
 
