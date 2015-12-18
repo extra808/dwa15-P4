@@ -63,36 +63,6 @@ Route::get('/google/login', function() {
     return Redirect::intended();
 });
 
-// Route::group([], function() {
-//     $studentId;
-//     if (Auth::guest() ) {
-//         Session::flash('flash_message', 'Guest');
-//     }
-//     elseif (Auth::check() && Auth::user()->role == 'student') {
-//         $studentId = ATC\Student::where('external_id', '=', Auth::user()->email) ->get() ->first() ->id;
-//     }
-//         Log::error('studentId '. $studentId);
-//     
-//     Route::get('/', function () {
-//         if (true) {
-//             $student = new ATC\Http\Controllers\StudentController;
-//             return $student->show(1);
-//         }
-//         else {
-//             return view('layouts.master');
-//         }
-//     });
-// });
-
-
-
-// Route::get('/courses', function() {
-//     $courses = new ATC\Http\Controllers\CourseController;
-//     return $courses->show
-// });
-
-//$studentId = ATC\Student::where('external_id', '=', Auth::user()->email)->get() ->first();
-
 // Home page
 Route::get('/', function () {
     if (Auth::guest() ) {
@@ -114,21 +84,12 @@ Route::get('/', function () {
     }
 });
 
-
 // For individual students
 Route::group(['middleware' => 'ATC\Http\Middleware\StudentMiddleware'], function()
 {
     Route::get('/courses/{id}', 'CourseController@showStudentCourse');
     Route::get('/courses/{courseId}/files/{id}', 'FileController@showStudentCourseFile');
 });
-
-
-
-Route::get('{student}', ['as' => '/courses', 'uses' => 'CourseController@index']) ->where('student', '1');
-
-//Route::get('/courses', 'CourseController@index');
-//Route::get('/courses/{id}', 'CourseController@show');
-
 
 Route::get('/logout', 'Auth\AuthController@getLogout');
 
