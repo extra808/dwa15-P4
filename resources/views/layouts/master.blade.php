@@ -55,16 +55,22 @@ $sitetitle = 'ATC Delivery';
             <li><a href="/students/create">Add Student</a></li>
           </ul>
           @endif
+
           <ul class="nav navbar-nav navbar-right">
             @if(Auth::guest() )
                 <li><a href="/google/authorize">Login with Google</a></li>
             @else
                 <li><a href="/logout">Logout</a></li>
-                <li><a href="https://accounts.google.com/logout">Logout of Google</a></li>
             @endif
+                <li><a href="https://accounts.google.com/logout">Logout of Google</a></li>
           </ul>
         </div><!--/.nav-collapse -->
+        @if(Auth::check() )
+        <div>Hello, {{ Auth::user()->name }}
+        </div>
+        @endif
       </div>
+
     </nav>
 
     <div class="container">
