@@ -64,7 +64,7 @@ class CourseController extends Controller
         $course = new \ATC\Course();
 
         // save course
-        if ($course->saveCourse($request, $course, $studentId) ) {
+        if ($course->saveCourse($request, $studentId) ) {
             return redirect()->action('CourseController@show', [$studentId, $course]);
         }
         else {
