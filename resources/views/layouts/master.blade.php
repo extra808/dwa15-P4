@@ -47,45 +47,42 @@ $sitetitle = 'ATC Delivery';
           <a class="navbar-brand" href="#">{{ $sitetitle }}</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
+          @if(Auth::check() && Auth::user()->role == 'staff')
           <ul class="nav navbar-nav">
             <li><a href="/students">List Students</a></li>
             <li><a href="/files">List Files</a></li>
             <li><a href="/courses">List Courses</a></li>
             <li><a href="/students/create">Add Student</a></li>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                <li><a href="#">Action</a></li>
-                <li><a href="#">Another action</a></li>
-                <li><a href="#">Something else here</a></li>
-                <li role="separator" class="divider"></li>
-                <li class="dropdown-header">Nav header</li>
-                <li><a href="#">Separated link</a></li>
-                <li><a href="#">One more separated link</a></li>
-              </ul>
-            </li>
           </ul>
+          @endif
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="/google/authorize">Login with Google</a></li>
-            <li><a href="https://accounts.google.com/logout">Logout of Google</a></li>
-            <li><a href="/github/authorize">Login with Github</a></li>
+            @if(Auth::guest() )
+                <li><a href="/google/authorize">Login with Google</a></li>
+            @else
+                <li><a href="/logout">Logout</a></li>
+                <li><a href="https://accounts.google.com/logout">Logout of Google</a></li>
+            @endif
           </ul>
         </div><!--/.nav-collapse -->
       </div>
     </nav>
 
     <div class="container">
-      <!-- Main component for a primary marketing message or call to action -->
       <div class="jumbotron">
-
     @if(\Session::has('flash_message'))
         <div class='alert alert-warning' role="alert">
             {{ \Session::get('flash_message') }}
         </div>
     @endif
 
+    @if(Auth::guest() )
+      <!-- Main component for a primary marketing message or call to action -->
+        <p>Students: <a href="/google/authorize">Login with Google</a> to download course files
+        </p>
+    @else
         {{-- Main page content will be yielded here --}}
         @yield('content')
+    @endif
       </div>
 
     </div> <!-- /container -->
