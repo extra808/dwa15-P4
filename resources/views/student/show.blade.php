@@ -4,24 +4,29 @@
 {{ $title or '' }}
 @endsection
 
+{{-- when viewed from student's home page, remove extra slash --}}
+{{ ($_SERVER['REQUEST_URI'] == '/') ? $_SERVER['REQUEST_URI'] = '' : '' }}
+
 @section('content')
     <h1>{{ $student->initials or '' }}</h1>
 
     <p>Last Modified: {{ $student->updated_at }}<br>
     </p>
 
-    <form action="{{ $_SERVER['REQUEST_URI'] }}" method="POST">
-        <input type="hidden" name="_method" value="DELETE">
-        <input type='hidden' value='{{ csrf_token() }}' name='_token'>
+    @if(Auth::check() && Auth::user()->role == 'staff')
+        <form action="{{ $_SERVER['REQUEST_URI'] }}" method="POST">
+            <input type="hidden" name="_method" value="DELETE">
+            <input type='hidden' value='{{ csrf_token() }}' name='_token'>
 
-        <div class="btn-group" role="group">
-            <a class="btn btn-default" href="{{ $_SERVER['REQUEST_URI'] }}/courses/create">Add Course</a>
-            <a class="btn btn-default" href="{{ $_SERVER['REQUEST_URI'] }}/edit">Edit</a>
+            <div class="btn-group" role="group">
+                <a class="btn btn-default" href="{{ $_SERVER['REQUEST_URI'] }}/courses/create">Add Course</a>
+                <a class="btn btn-default" href="{{ $_SERVER['REQUEST_URI'] }}/edit">Edit</a>
 
-            <input class="btn btn-default" type="submit" name="delete" value="Delete">
-        </div>
+                <input class="btn btn-default" type="submit" name="delete" value="Delete">
+            </div>
 
-    </form>
+        </form>
+    @endif
 
     <p><a href="{{ $_SERVER['REQUEST_URI'] .'/courses' }}">Courses</a>
     </p>
