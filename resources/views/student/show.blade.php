@@ -8,12 +8,12 @@
 {{ ($_SERVER['REQUEST_URI'] == '/') ? $_SERVER['REQUEST_URI'] = '' : '' }}
 
 @section('content')
+    @if(Auth::check() && Auth::user()->role == 'staff')
     <h1>{{ $student->initials or '' }}</h1>
 
     <p>Last Modified: {{ $student->updated_at }}<br>
     </p>
 
-    @if(Auth::check() && Auth::user()->role == 'staff')
         <form action="{{ $_SERVER['REQUEST_URI'] }}" method="POST">
             <input type="hidden" name="_method" value="DELETE">
             <input type='hidden' value='{{ csrf_token() }}' name='_token'>
