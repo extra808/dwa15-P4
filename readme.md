@@ -19,3 +19,4 @@ A site for delivering files to student clients of the Assistive Technology Cente
 * [Download File to server from URL](http://stackoverflow.com/questions/3938534/download-file-to-server-from-url)
 * [PHP: What is the best and easiest way to check if directory is empty or not](http://stackoverflow.com/questions/18685576/php-what-is-the-best-and-easiest-way-to-check-if-directory-is-empty-or-not)
 * [adamwathan/eloquent-oauth-l5](https://github.com/adamwathan/eloquent-oauth-l5)
+* [Laravel 5 routes - restricting based on user type](http://laravel.io/forum/02-17-2015-laravel-5-routes-restricting-based-on-user-type)

@@ -60,9 +60,6 @@ Route::get('/google/login', function() {
         abort(403, 'Forbbiden');
     }
 
-    // Current user is now available via Auth facade
-//    $user = Auth::user();
-
     return Redirect::intended();
 });
 
@@ -70,13 +67,21 @@ Route::get('/', function () {
     return view('layouts.master');
 });
 
+Route::get('/logout', 'Auth\AuthController@getLogout');
+
 // only use Laravel Log Viewer in a local environment
 if (App::environment() == 'local') {
     Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 }
 
-Route::resource('students', 'StudentController');
 
-Route::resource('students.courses', 'CourseController');
+// Staff only
+Route::group(['middleware' => 'ATC\Http\Middleware\StaffMiddleware'], function()
+{
+    Route::resource('students', 'StudentController');
 
-Route::resource('students.courses.files', 'FileController');
+    Route::resource('students.courses', 'CourseController');
+
+    Route::resource('students.courses.files', 'FileController');
+});
+
