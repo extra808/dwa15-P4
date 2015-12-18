@@ -77,14 +77,20 @@ $sitetitle = 'ATC Delivery';
     <div class="container">
       <!-- Main component for a primary marketing message or call to action -->
       <div class="row">
-    @if(\Session::has('flash_message'))
-        <div class='alert alert-warning' role="alert">
+        @if(\Session::has('flash_message'))
+            <div class='alert alert-warning' role="alert">
             {{ \Session::get('flash_message') }}
-        </div>
-    @endif
+            </div>
+        @endif
 
         {{-- Main page content will be yielded here --}}
         @yield('content')
+
+        @if(\Session::has('flash_message'))
+            <div class='alert alert-warning' role="alert">
+            {{ \Session::get('flash_message') }}
+            </div>
+        @endif
       </div>
 
     </div> <!-- /container -->

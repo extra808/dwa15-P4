@@ -43,15 +43,15 @@ class FileController extends Controller
     public function create($studentId, $courseId)
     {
         // check the student
-        \ATC\Student::getStudentOrFail($studentId);
+        $student = \ATC\Student::getStudentOrFail($studentId);
 
         // check the course
-        \ATC\Course::getCourseWithOrFail($courseId);
+        $course = \ATC\Course::getCourseWithOrFail($courseId);
 
         $title = 'Add File';
  
-        return view('file.create') ->withTitle($title) ->withStudent($studentId) 
-            ->withCourse($courseId);
+        return view('file.create') ->withTitle($title) ->withStudent($student)
+            ->withCourse($course);
     }
 
     /**
@@ -122,18 +122,18 @@ class FileController extends Controller
     public function edit($studentId, $courseId, $id)
     {
         // check the student
-        \ATC\Student::getStudentOrFail($studentId);
+        $student = \ATC\Student::getStudentOrFail($studentId);
 
         // check the course
-        \ATC\Course::getCourseWithOrFail($courseId);
+        $course = \ATC\Course::getCourseWithOrFail($courseId);
 
         // get a file
         $file = \ATC\File::getFileOrFail($id);
 
         $title = 'Edit '. $file->name;
 
-        return view('file.edit') ->withTitle($title) ->withStudent($studentId) 
-            ->withCourse($courseId) ->withFile($file);
+        return view('file.edit') ->withTitle($title) ->withStudent($student)
+            ->withCourse($course) ->withFile($file);
     }
 
     /**

@@ -38,14 +38,14 @@ class CourseController extends Controller
     public function create($studentId)
     {
         // check the student
-        \ATC\Student::getStudentOrFail($studentId);
+        $student = \ATC\Student::getStudentOrFail($studentId);
 
         $title = 'Add Course';
  
         $terms = \ATC\Term::all();
 
         return view('course.create') ->withTitle($title) ->withTerms($terms)
-            ->withStudent($studentId);
+            ->withStudent($student);
     }
 
     /**

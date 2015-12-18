@@ -7,8 +7,9 @@
 @section('content')
     <h1>{{ $title or '' }}</h1>
 
-    <p>Last Modified: {{ $course->updated_at->timezone('America/New_York')->format('g:i a M d') }}<br>
-        Term:  {{ $course->term->name }}
+    <p>Term: {{ $course->term->name }}<br>
+    For student <a href="..">{{ $course->student->initials }}</a><br>
+    Last Modified: {{ $course->updated_at->timezone('America/New_York')->format('g:i a M d') }}
     </p>
 
 <?php $staff = FALSE; ?>
@@ -25,7 +26,7 @@
                 <a class="btn btn-warning" href="{{ $_SERVER['REQUEST_URI'] }}/edit">Edit Course</a>
 
                 <button class="btn btn-danger" type="submit" name="delete {{ $course->name }}">
-                    Delete <span class="sr-only">{{ $course->name }}</span>
+                    Delete Course <span class="sr-only">{{ $course->name }}</span>
                 </button>
             </div>
 
