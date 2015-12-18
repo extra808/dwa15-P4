@@ -32,7 +32,7 @@
         </form>
     @endif
 
-    <table class="download-file">
+    <table class="table download-file">
     <thead>
     <tr>
         <th>File</th> 

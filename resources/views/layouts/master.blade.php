@@ -35,8 +35,8 @@ $sitetitle = 'ATC Delivery';
   <body>
 
     <!-- Fixed navbar -->
-    <nav class="navbar navbar-default navbar-fixed-top">
-      <div class="container">
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
             <span class="sr-only">Toggle navigation</span>
@@ -47,7 +47,7 @@ $sitetitle = 'ATC Delivery';
           <a class="navbar-brand" href="/">{{ $sitetitle }}</a>
 
         @if(Auth::check() )
-            <p class="navbar-text">Hello, {{ Auth::user()->name }}
+            <p class="navbar-text">Hello, <a href="/">{{ Auth::user()->name }}</a>
             </p>
         @endif
         </div>
@@ -76,7 +76,7 @@ $sitetitle = 'ATC Delivery';
 
     <div class="container">
       <!-- Main component for a primary marketing message or call to action -->
-      <div class="jumbotron">
+      <div class="row">
     @if(\Session::has('flash_message'))
         <div class='alert alert-warning' role="alert">
             {{ \Session::get('flash_message') }}
