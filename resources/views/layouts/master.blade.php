@@ -55,8 +55,6 @@ $sitetitle = 'ATC Delivery';
           @if(Auth::check() && Auth::user()->role == 'staff')
           <ul class="nav navbar-nav">
             <li><a href="/students">List Students</a></li>
-            <li><a href="/files">List Files</a></li>
-            <li><a href="/courses">List Courses</a></li>
             <li><a href="/students/create">Add Student</a></li>
           </ul>
           @endif
