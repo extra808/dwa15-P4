@@ -80,7 +80,7 @@ class File extends Model
             elseif($this->name != $uploadName) {
                 $unlinkPath = storage_path() .'/files/'. $this->path;
                 // delete old file
-                unlink($destinationPath .'/'. $this->name);
+                unlink($unlinkPath .'/'. $this->name);
                 // change file name in record
                 $this->name = $uploadName;
             }
