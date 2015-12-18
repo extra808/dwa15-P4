@@ -9,6 +9,9 @@ A site for delivering files to student clients of the Assistive Technology Cente
 ## Demo
 
 ## Details for teaching team
+* Authentication is external using OAuth with Google and limited to addresses of a single domain. Login information for test users provided separately
+* Jill is a staff member, Jamal is a student
+* [Logout of Google link](https://accounts.google.com/logout) provided for testing convenience
 * Validation performed in models
 * `onDelete('cascade')` in foreign key relationship makes database take care of deleting related records in courses and course_file tables, instead of code in controllers or models
 * Uploaded filenames converted and transliterated to ASCII for compatibility with <a href="http://laravel.com/docs/5.1/responses#file-downloads">Laravel File Downloads</a> method.
