@@ -3,6 +3,7 @@
 namespace ATC\Http\Middleware;
 
 use Closure;
+use Auth;
 use Session;
 use Log;
 
@@ -18,9 +19,9 @@ class StaffMiddleware
     public function handle($request, Closure $next)
     {
         // authenticated user?
-        if ($request->has('user') ) {
+        if (Auth::check() ) {
             // user is staff?
-            if ($request->user()->role != 'staff') {
+            if (Auth::user()->role != 'staff') {
                 Session::flash('flash_message', 'Staff only');
                 return redirect('/');
             }
