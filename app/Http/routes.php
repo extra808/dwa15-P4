@@ -96,11 +96,10 @@ Route::get('/google/login', function() {
 // Home page
 Route::get('/', function () {
     if (Auth::guest() ) {
-        Session::flash('flash_message', 'Guest');
+        return view('layouts.guest');
     }
-
-    // is user authenticated and are they a student?
-    if (Auth::check() && Auth::user()->role == 'student') {
+    // is authenticated user a student?
+    elseif (Auth::user()->role == 'student') {
         // get id of logged in student
         $student = ATC\Student::where('external_id', '=', Auth::user()->email)->get() ->first() ->id;
         
@@ -108,9 +107,12 @@ Route::get('/', function () {
         $studentController = new ATC\Http\Controllers\StudentController;
         return $studentController->show($student);
     }
+    // staff home page
     else {
+        $studentController = new ATC\Http\Controllers\StudentController;
+        return $studentController->index();
         // staff & guest home page
-        return view('layouts.master');
+//        return view('layouts.master');
     }
 });
 

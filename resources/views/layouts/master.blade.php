@@ -75,6 +75,7 @@ $sitetitle = 'ATC Delivery';
     </nav>
 
     <div class="container">
+      <!-- Main component for a primary marketing message or call to action -->
       <div class="jumbotron">
     @if(\Session::has('flash_message'))
         <div class='alert alert-warning' role="alert">
@@ -82,14 +83,8 @@ $sitetitle = 'ATC Delivery';
         </div>
     @endif
 
-    @if(Auth::guest() )
-      <!-- Main component for a primary marketing message or call to action -->
-        <p>Students: <a href="/google/authorize">Login with Google</a> to download course files
-        </p>
-    @else
         {{-- Main page content will be yielded here --}}
         @yield('content')
-    @endif
       </div>
 
     </div> <!-- /container -->
