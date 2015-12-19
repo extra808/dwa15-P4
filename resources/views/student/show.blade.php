@@ -37,10 +37,12 @@
     @endif
 
     <h2>Courses</h2>
-    <ul>
+
+    <ul class="lists">
     @foreach($courses as $course)
         <li><a href="{{ $_SERVER['REQUEST_URI'] .'/courses/'. $course->id }}">
-            {{ $course->name }}</a>, {{ $course->term->name }} {{ $course->year }}
+            {{ $course->name }}, {{ $course->term->name }} {{ $course->year }}</a>
+        </li>
     @endforeach
     </ul>
 

@@ -7,10 +7,13 @@
 @section('content')
     <h1>{{ $title or '' }}</h1>
 
-    <ul>
+    <h2>Courses</h2>
+
+    <ul class="lists">
     @foreach($courses as $course)
-            <li><a href="{{ $_SERVER['REQUEST_URI'] .'/'. $course->id }}">
-                {{ $course->name }}</a>
+        <li><a href="{{ $_SERVER['REQUEST_URI'] .'/courses/'. $course->id }}">
+            {{ $course->name }}, {{ $course->term->name }} {{ $course->year }}</a>
+        </li>
     @endforeach
     </ul>
 

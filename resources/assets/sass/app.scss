@@ -14,16 +14,24 @@
 }
 
 .instructions {
-	@extend .col-md-4;
-	@extend .col-md-push-8;
+	@extend .col-sm-4;
+	@extend .col-sm-push-4;
 }
 
-.student-list {
-	@extend .col-md-8;
-	@extend .col-md-pull-4;
-	@extend .list-group;
+.students {
+	@extend .col-sm-4;
+	@extend .col-sm-pull-4;
+}
+
+.lists {
+	@extend .btn-group-vertical;
 
 	li {
-	    @extend .list-group-item;
+	    @extend .btn;
+	    @extend .btn-default;
+
+        a {
+            display: block;
+        }
 	}
 }
