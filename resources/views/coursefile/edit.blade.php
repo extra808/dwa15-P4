@@ -8,15 +8,19 @@
     <h1>{{ $title or '' }}</h1>
 
     <p>
-    Course <a href="/students/{{ $student->id }}/courses/{{ $course->id }}">{{ $course->name }}</a> for Student <a href="/students/{{ $student->id }}">{{ $student->initials }}</a>
+    Course <a href="/students/{{ $student->id }}/courses/{{ $course->id }}">{{ 
+            $course->name }}</a> for Student <a href="/students/{{ $student->id }}">{{ 
+            $student->initials }}</a>
     </p>
-    <form action="/students/{{ $student->id }}/courses/{{ $course->id }}/files/{{ $file->id }}" method="POST" enctype="multipart/form-data">
+    <form action="/students/{{ $student->id }}/courses/{{ $course->id }}/files/{{ 
+        $file->id }}" method="POST" enctype="multipart/form-data">
         <input type="hidden" name="_method" value="PUT">
         <input type='hidden' value='{{ csrf_token() }}' name='_token'>
         <div class="row">
             <div class="panel input-group">
                 <label class="input-group-addon" for="uploaded_file">File</label>
-                <input class="form-control" type="file" name="uploaded_file" id="uploaded_file">
+                <input class="form-control" type="file" name="uploaded_file" 
+                    id="uploaded_file">
             </div>
 
         </div>

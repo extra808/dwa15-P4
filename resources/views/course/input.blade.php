@@ -1,7 +1,8 @@
         <div class="row">
             <div class="input-group col-md-2">
                 <label class="input-group-addon" for="year">Year</label>
-                <input class="form-control" type="text" name="year" id="year" value="{{ old('year', Carbon\Carbon::now()->year) }}">
+                <input class="form-control" type="text" name="year" id="year" 
+                    value="{{ old('year', Carbon\Carbon::now()->year) }}">
             </div>
 
         </div>

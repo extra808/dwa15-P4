@@ -27,7 +27,8 @@
         <div class="row">
             <div class="panel input-group">
                 <label class="input-group-addon" for="uploaded_file">File</label>
-                <input class="form-control" type="file" name="uploaded_file" id="uploaded_file">
+                <input class="form-control" type="file" name="uploaded_file" 
+                    id="uploaded_file">
             </div>
 
         </div>

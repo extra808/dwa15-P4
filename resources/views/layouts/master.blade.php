@@ -53,12 +53,12 @@ $sitetitle = 'ATC Delivery';
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           @if(Auth::check() && Auth::user()->role == 'staff')
-          <ul class="nav navbar-nav">
-            <li><a href="/students/create">Add Student</a></li>
-            <li><a href="/files/create">Add File</a></li>
-            <li><a href="/files">List All Files</a></li>
-            <li><a href="/files/orphans">List Orphan Files</a></li>
-          </ul>
+              <ul class="nav navbar-nav">
+                <li><a href="/students/create">Add Student</a></li>
+                <li><a href="/files/create">Add File</a></li>
+                <li><a href="/files">List All Files</a></li>
+                <li><a href="/files/orphans">List Orphan Files</a></li>
+              </ul>
           @endif
 
           <ul class="nav navbar-nav navbar-right">

@@ -8,17 +8,20 @@
     <h1>{{ $title or '' }}</h1>
 
     <p>
-    for Student <a href="/students/{{ $course->student_id }}">{{ $course->student->initials }}</a>
+    for Student <a href="/students/{{ $course->student_id }}">{{ 
+                $course->student->initials }}</a>
     </p>
 
-    <form action="/students/{{ $course->student_id }}/courses/{{ $course->id }}" method="POST">
+    <form action="/students/{{ $course->student_id }}/courses/{{ $course->id }}" 
+        method="POST">
         <input type="hidden" name="_method" value="PUT">
         <input type='hidden' value='{{ csrf_token() }}' name='_token'>
 
         <div class="row">
             <div class="input-group col-md-2">
                 <label class="input-group-addon" for="year">Year</label>
-                <input class="form-control" type="text" name="year" id="year" value="{{ $course->year }}">
+                <input class="form-control" type="text" name="year" id="year" 
+                    value="{{ $course->year }}">
             </div>
 
         </div>
