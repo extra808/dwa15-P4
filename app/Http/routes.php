@@ -24,14 +24,16 @@ Route::get('/google/login', function() {
             // is "host domain" correct?
             if ($userDetails->raw['hd'] == 'cognize.org') {
                 // is user staff?
-                if ($staffCheck = \ATC\Staff::where('external_id', '=', $userDetails->email) ->first() ) {
+                if ($staffCheck = \ATC\Staff::where('external_id', '=', 
+                                    $userDetails->email) ->first() ) {
                     $user->email = $userDetails->email;
                     $user->name = $userDetails->full_name;
                     $user->role = 'staff';
                     $user->save();
                 }
                 // is user student?
-                elseif ($studentCheck = \ATC\Student::where('external_id', '=', $userDetails->email) ->first() ) {
+                elseif ($studentCheck = \ATC\Student::where('external_id', '=', 
+                                    $userDetails->email) ->first() ) {
                     $user->email = $userDetails->email;
                     $user->name = $userDetails->full_name;
                     $user->role = 'student';
@@ -71,7 +73,8 @@ Route::get('/', function () {
     // is authenticated user a student?
     elseif (Auth::user()->role == 'student') {
         // get id of logged in student
-        $student = ATC\Student::where('external_id', '=', Auth::user()->email)->get() ->first() ->id;
+        $student = ATC\Student::where('external_id', '=', Auth::user()->email)->get() 
+                                ->first() ->id;
         
         // show student's information, i.e. course list
         $studentController = new ATC\Http\Controllers\StudentController;
@@ -88,7 +91,8 @@ Route::get('/', function () {
 Route::group(['middleware' => 'ATC\Http\Middleware\StudentMiddleware'], function()
 {
     Route::get('/courses/{id}', 'CourseController@showStudentCourse');
-    Route::get('/courses/{courseId}/files/{id}', 'CourseFileController@showStudentCourseFile');
+    Route::get('/courses/{courseId}/files/{id}', 
+                'CourseFileController@showStudentCourseFile');
 });
 
 Route::get('/logout', 'Auth\AuthController@getLogout');
