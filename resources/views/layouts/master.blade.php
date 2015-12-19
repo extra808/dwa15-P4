@@ -47,7 +47,7 @@ $sitetitle = 'ATC Delivery';
           <a class="navbar-brand" href="/">{{ $sitetitle }}</a>
 
         @if(Auth::check() )
-            <p class="navbar-text">Hello, {{ Auth::user()->name }}
+            <p class="navbar-text"><strong>Hello, {{ Auth::user()->name }}</strong>
             </p>
         @endif
         </div>

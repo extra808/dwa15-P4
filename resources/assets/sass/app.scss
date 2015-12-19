@@ -12,3 +12,18 @@
 .download-file tr td:first-child a:visited {
     color: #551A8B; /* default visited link purple */
 }
+
+.instructions {
+	@extend .col-md-4;
+	@extend .col-md-push-8;
+}
+
+.student-list {
+	@extend .col-md-8;
+	@extend .col-md-pull-4;
+	@extend .list-group;
+
+	li {
+	    @extend .list-group-item;
+	}
+}
