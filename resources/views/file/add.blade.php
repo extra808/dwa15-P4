@@ -12,7 +12,7 @@
         <input type="hidden" name="_method" value="PUT">
         <input type='hidden' value='{{ csrf_token() }}' name='_token'>
         <div class="row">
-            <div class="panel input-group col-md-3">
+            <div class="panel input-group col-md-6">
                 <label class="input-group-addon" for="course">
                 Add File to Course (Student)</label>
                 <select class="form-control" name="course" id="course">

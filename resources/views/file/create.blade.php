@@ -13,7 +13,7 @@
     <form action="/files" method="POST" enctype="multipart/form-data">
         <input type='hidden' value='{{ csrf_token() }}' name='_token'>
         <div class="row">
-            <div class="input-group col-md-3">
+            <div class="input-group col-md-6">
                 <label class="input-group-addon" for="course">Course (Student)</label>
                 <select class="form-control" name="course" id="course">
                     <option value=""></option>
@@ -28,7 +28,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="panel input-group">
+            <div class="panel input-group col-md-6">
                 <label class="input-group-addon" for="uploaded_file">File</label>
                 <input class="form-control" type="file" name="uploaded_file" 
                     id="uploaded_file">

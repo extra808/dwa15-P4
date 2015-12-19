@@ -17,7 +17,7 @@
         method="POST" enctype="multipart/form-data">
         <input type='hidden' value='{{ csrf_token() }}' name='_token'>
         <div class="row">
-            <div class="panel input-group">
+            <div class="panel input-group col-md-6">
                 <label class="input-group-addon" for="uploaded_file">File</label>
                 <input class="form-control" type="file" name="uploaded_file" 
                     id="uploaded_file">
