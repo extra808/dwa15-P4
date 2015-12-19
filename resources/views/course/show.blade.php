@@ -56,6 +56,11 @@
 
                     <div class="btn-group-sm" role="group">
                         <a class="btn btn-warning" href="{{ $_SERVER['REQUEST_URI'] .'/files/'. $file->id .'/edit' }}">Edit <span class="sr-only">{{ $file->name }}</span></a>
+
+                        <button class="btn btn-danger" type="submit" name="remove">
+                            Remove from Course <span class="sr-only">{{ $file->name }}</span>
+                        </button>
+
                         <button class="btn btn-danger" type="submit" name="delete {{ $file->name }}">
                             Delete File <span class="sr-only">{{ $file->name }}</span>
                         </button>

@@ -172,9 +172,10 @@ class CourseFileController extends Controller
      * @param  int  $studentId
      * @param  int  $courseId
      * @param  int  $id
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function destroy($studentId, $courseId, $id)
+    public function destroy($studentId, $courseId, $id, Request $request)
     {
         // check the student
         \ATC\Student::getStudentOrFail($studentId);
@@ -184,23 +185,31 @@ class CourseFileController extends Controller
 
         $file = \ATC\File::getFileOrFail($id);
 
-        $destinationPath = storage_path() .'/files/'. $file->path;
-        // delete file from filesystem
-        if(unlink($destinationPath .'/'. $file->name) ) {
-            // check if file was the only one in  directory
-            $numFilesInDir = count(scandir($destinationPath) );
-            // are there any files? '.' '..' count as files to scandir
-            if ($numFilesInDir <= 2) {
-                rmdir($destinationPath);
-            }
-
-            // delete file, will cascade to delete relations to files
-            $file->delete();
-
-            Session::flash('flash_message', $file->name.' deleted');
+        // only removing file from course?
+        if($request->exists('remove') ) {
+            $file->courses()->detach();
+            Session::flash('flash_message', $file->name.' removed from course');
         }
+        // deleting file
         else {
-            Session::flash('flash_message', $file->name.' <strong>NOT</strong> deleted');
+            $destinationPath = storage_path() .'/files/'. $file->path;
+            // delete file from filesystem
+            if(unlink($destinationPath .'/'. $file->name) ) {
+                // check if file was the only one in  directory
+                $numFilesInDir = count(scandir($destinationPath) );
+                // are there any files? '.' '..' count as files to scandir
+                if ($numFilesInDir <= 2) {
+                    rmdir($destinationPath);
+                }
+
+                // delete file, will cascade to delete relations to files
+                $file->delete();
+
+                Session::flash('flash_message', $file->name.' deleted');
+            }
+            else {
+                Session::flash('flash_message', $file->name.' <strong>NOT</strong> deleted');
+            }
         }
 
         // go to list view
