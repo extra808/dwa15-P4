@@ -7,8 +7,11 @@
 @section('content')
     <h1>{{ $title or '' }}</h1>
 
-    <form action="/files/{{ $file->id }}" method="POST" enctype="multipart/form-data">
-        <input type="hidden" name="_method" value="PUT">
+    <p>
+    Course <a href="/students/{{ $student->id }}/courses/{{ $course->id }}">{{ $course->name }}</a> for Student <a href="/students/{{ $student->id }}">{{ $student->initials }}</a>
+    </p>
+
+    <form action="/students/{{ $student->id }}/courses/{{ $course->id }}/files" method="POST" enctype="multipart/form-data">
         <input type='hidden' value='{{ csrf_token() }}' name='_token'>
         <div class="row">
             <div class="panel input-group">
@@ -20,8 +23,8 @@
 
         <div class="row">
             <input class="btn btn-primary" type="submit" name="add" value="Upload File">
-            <a class="btn btn-default" href="../">Cancel</a>
-        </div>
+            <a class="btn btn-default" href="..">Cancel</a>
+       </div>
     </form>
 
 @stop

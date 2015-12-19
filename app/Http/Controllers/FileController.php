@@ -13,22 +13,14 @@ class FileController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param  int  $studentId
-     * @param  int  $courseId
      * @return \Illuminate\Http\Response
      */
-    public function index($studentId, $courseId)
+    public function index()
     {
-        // check the student
-        \ATC\Student::getStudentOrFail($studentId);
-
-        // get the course
-        $course = \ATC\Course::getCourseWithOrFail($courseId);
-
-        $title = 'List '. $course->name .' Files';
+        $title = 'List All Files';
 
         // get courses
-        $files = $course ->files() ->orderBy('updated_at', 'ASC') ->get();
+        $files = \ATC\File::all()->sortBy('name');
 
         return view('file.index') ->withTitle($title) ->withFiles($files);
     }
@@ -36,39 +28,27 @@ class FileController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @param  int  $studentId
-     * @param  int  $courseId
      * @return \Illuminate\Http\Response
      */
-    public function create($studentId, $courseId)
+    public function create()
     {
-        // check the student
-        $student = \ATC\Student::getStudentOrFail($studentId);
-
-        // check the course
-        $course = \ATC\Course::getCourseWithOrFail($courseId);
+        $courses = \ATC\Course::with('student')->orderBy('name', 'asc')->get();
 
         $title = 'Add File';
  
-        return view('file.create') ->withTitle($title) ->withStudent($student)
-            ->withCourse($course);
+        return view('file.create') ->withTitle($title) ->withCourses($courses);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  int  $studentId
-     * @param  int  $courseId
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store($studentId, $courseId, Request $request)
+    public function store(Request $request)
     {
-        // check the student
-        \ATC\Student::getStudentOrFail($studentId);
-
         // check the course
-        \ATC\Course::getCourseWithOrFail($courseId);
+        $course = \ATC\Course::getCourseWithOrFail($request->course);
 
         // create new file or find existing file with same name and 
         // same path, i.e. uploaded in same session
@@ -78,32 +58,22 @@ class FileController extends Controller
             ]);
 
         // save file
-        if($file->saveFile($request, $studentId, $courseId) ) {
-            return redirect()->action('FileController@edit', 
-                [$studentId, $courseId, $file]);
+        if($file->saveFile($request, $course->id) ) {
+            return redirect()->action('CourseController@show', [$course->student->id, $course->id]);
         }
         else {
             return back()->withInput();
         }
-
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $studentId
-     * @param  int  $courseId
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($studentId, $courseId, $id)
+    public function show($id)
     {
-        // check the student
-        \ATC\Student::getStudentOrFail($studentId);
-
-        // check the course
-        \ATC\Course::getCourseWithOrFail($courseId);
-
         // get a file
         $file = \ATC\File::getFileOrFail($id);
 
@@ -114,51 +84,36 @@ class FileController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $studentId
-     * @param  int  $courseId
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($studentId, $courseId, $id)
+    public function edit($id)
     {
-        // check the student
-        $student = \ATC\Student::getStudentOrFail($studentId);
-
-        // check the course
-        $course = \ATC\Course::getCourseWithOrFail($courseId);
+        $courses = \ATC\Course::with('student')->orderBy('name', 'asc')->get();
 
         // get a file
         $file = \ATC\File::getFileOrFail($id);
 
         $title = 'Edit '. $file->name;
 
-        return view('file.edit') ->withTitle($title) ->withStudent($student)
-            ->withCourse($course) ->withFile($file);
+        return view('file.edit') ->withTitle($title) ->withFile($file)  
+                ->withCourses($courses);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  int  $studentId
-     * @param  int  $courseId
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update($studentId, $courseId, Request $request, $id)
+    public function update(Request $request, $id)
     {
-        // check the student
-        \ATC\Student::getStudentOrFail($studentId);
-
-        // check the course
-        \ATC\Course::getCourseWithOrFail($courseId);
-
         $file = \ATC\File::getFileOrFail($id);
 
         // save file
-        if($file->saveFile($request, $studentId, $courseId) ) {
-            return redirect()->action('FileController@edit', 
-                [$studentId, $courseId, $file]);
+        if($file->saveFile($request) ) {
+            return redirect()->action('FileController@edit', [$file]);
         }
         else {
             return back()->withInput();
@@ -169,19 +124,11 @@ class FileController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $studentId
-     * @param  int  $courseId
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($studentId, $courseId, $id)
+    public function destroy($id)
     {
-        // check the student
-        \ATC\Student::getStudentOrFail($studentId);
-
-        // check the course
-        \ATC\Course::getCourseWithOrFail($courseId);
-
         $file = \ATC\File::getFileOrFail($id);
 
         $destinationPath = storage_path() .'/files/'. $file->path;
@@ -204,24 +151,51 @@ class FileController extends Controller
         }
 
         // go to list view
-        return redirect()->action('CourseController@show', [$studentId, $courseId]);
+        return redirect('/files');
     }
 
     /**
-     * Display the specified resource.
+     * Show the form for editing the specified resource.
      *
-     * @param  int  $courseId
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function showStudentCourseFile($courseId, $id)
+    public function addCourse($id)
     {
-        // get id of logged in student
-        $studentId = \ATC\Student::where('external_id', '=', \Auth::user()->email)->get() ->first() ->id;
+        $courses = \ATC\Course::with('student')->orderBy('name', 'asc')->get();
 
-        return $this->show($studentId, $courseId, $id);
+        // get a file
+        $file = \ATC\File::getFileOrFail($id);
+
+        $title = 'Add Course to '. $file->name;
+
+        return view('file.add') ->withTitle($title) ->withFile($file)  
+                ->withCourses($courses);
     }
 
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updateCourse(Request $request, $id)
+    {
+        // check the course
+        $course = \ATC\Course::getCourseWithOrFail($request->course);
+
+        // get a file
+        $file = \ATC\File::getFileOrFail($id);
+
+        // save update
+        if($file->saveFileCourse($course->id) ) {
+            return redirect()->action('CourseController@show', [$course->student->id, $course->id]);
+        }
+        else {
+            return back()->withInput();
+        }
+    }
 
     /**
      * Display a listing of files with no courses.

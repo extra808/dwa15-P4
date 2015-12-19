@@ -88,7 +88,7 @@ Route::get('/', function () {
 Route::group(['middleware' => 'ATC\Http\Middleware\StudentMiddleware'], function()
 {
     Route::get('/courses/{id}', 'CourseController@showStudentCourse');
-    Route::get('/courses/{courseId}/files/{id}', 'FileController@showStudentCourseFile');
+    Route::get('/courses/{courseId}/files/{id}', 'CourseFileController@showStudentCourseFile');
 });
 
 Route::get('/logout', 'Auth\AuthController@getLogout');
@@ -106,9 +106,13 @@ Route::group(['middleware' => 'ATC\Http\Middleware\StaffMiddleware'], function()
 
     Route::resource('students.courses', 'CourseController');
 
-    Route::resource('students.courses.files', 'FileController');
+    Route::resource('students.courses.files', 'CourseFileController');
 
-    Route::get('/orphans', 'FileController@indexOrphans');
-//    Route::get('/orphans/files/{id}', 'FileController@show');
+    Route::get('/files/orphans', 'FileController@indexOrphans');
+
+    Route::resource('files', 'FileController');
+
+    Route::get('files/{id}/add', 'FileController@addCourse');
+    Route::put('files/{id}/course', 'FileController@updateCourse');
 });
 

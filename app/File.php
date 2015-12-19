@@ -58,16 +58,18 @@ class File extends Model
      * Save sepecified resource or set errors
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $studentId
      * @param  int  $courseId
+     * @param  int  $studentId
      * @return boolean
      */
-    public function saveFile(Request $request, $studentId, $courseId) {
+    public function saveFile(Request $request, $courseId = NULL, $studentId = NULL) {
         // attempt validation
         if ($this->validate($request) ) {
             // convert filename to ASCII
-            $uploadName = iconv('UTF-8', 'ASCII//TRANSLIT', $request->file('uploaded_file') ->getClientOriginalName() );
-            $uploadType = iconv('UTF-8', 'ASCII//TRANSLIT', $request->file('uploaded_file') ->getClientOriginalExtension() );
+            $uploadName = iconv('UTF-8', 'ASCII//TRANSLIT', 
+                        $request->file('uploaded_file') ->getClientOriginalName() );
+            $uploadType = iconv('UTF-8', 'ASCII//TRANSLIT', 
+                        $request->file('uploaded_file') ->getClientOriginalExtension() );
 
             // totally new file?
             if($this->name == NULL) {
@@ -88,8 +90,10 @@ class File extends Model
             $this->type = $uploadType;
             $this->save(); // insert file in table
 
-            // save association between file and course
-            $this->courses()->sync(array($courseId) );
+            if($courseId != NULL) {
+                // save association between file and course
+                $this->courses()->sync(array($courseId) );
+            }
 
             $destinationPath = storage_path() .'/files/'. $this->path;
 
@@ -100,18 +104,25 @@ class File extends Model
             $request->file('uploaded_file')->move($destinationPath, $this->name );
 
             return true;
-
-            return redirect()->action('FileController@edit', 
-                [$studentId, $courseId, $file]);
         }
         else {
             $errors = $this->getErrors();
             Session::flash('flash_message', $errors);
 
             return false;
-
-            return back()->withInput();
         }
     }
 
+    /**
+     * Save sepecified resource
+     *
+     * @param  int  $courseId
+     * @return boolean
+     */
+    public function saveFileCourse($courseId) {
+        // save association between file and course
+        $this->courses()->sync(array($courseId) );
+
+        return true;
+    }
 }
