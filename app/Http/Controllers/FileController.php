@@ -221,4 +221,20 @@ class FileController extends Controller
 
         return $this->show($studentId, $courseId, $id);
     }
+
+
+    /**
+     * Display a listing of files with no courses.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function indexOrphans()
+    {
+        // get files with no relations to any courses
+        $files = \ATC\File::has('courses', '<', 1)->orderBy('name', 'desc')->get();
+
+        $title = 'List Orphan Files';
+
+        return view('file.index') ->withTitle($title) ->withFiles($files);
+    }
 }

@@ -107,5 +107,8 @@ Route::group(['middleware' => 'ATC\Http\Middleware\StaffMiddleware'], function()
     Route::resource('students.courses', 'CourseController');
 
     Route::resource('students.courses.files', 'FileController');
+
+    Route::get('/orphans', 'FileController@indexOrphans');
+//    Route::get('/orphans/files/{id}', 'FileController@show');
 });
 
