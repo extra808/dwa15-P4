@@ -39,8 +39,8 @@
     <h2>Courses</h2>
     <ul>
     @foreach($courses as $course)
-            <li><a href="{{ $_SERVER['REQUEST_URI'] .'/courses/'. $course->id }}">
-                {{ $course->name }}</a>
+        <li><a href="{{ $_SERVER['REQUEST_URI'] .'/courses/'. $course->id }}">
+            {{ $course->name }}</a>, {{ $course->term->name }} {{ $course->year }}
     @endforeach
     </ul>
 
