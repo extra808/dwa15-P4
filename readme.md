@@ -18,9 +18,9 @@ A site for delivering files to student clients of the Assistive Technology Cente
 * FilesTableSeeder uses `$faker->imageUrl()` to get random image data but writes it into files on the file system with different filename extensions.
 
 ## Outside code
-* [Bootstrap Fixed top navbar](http://getbootstrap.com/examples/navbar-fixed-top/)
+* [Bootstrap Default navbar](http://getbootstrap.com/examples/navbar/)
 * [Trick: Validation within models.](http://daylerees.com/trick-validation-within-models/)
-* [Download File to server from URL](http://stackoverflow.com/questions/3938534/download-file-to-server-from-url)
-* [PHP: What is the best and easiest way to check if directory is empty or not](http://stackoverflow.com/questions/18685576/php-what-is-the-best-and-easiest-way-to-check-if-directory-is-empty-or-not)
-* [adamwathan/eloquent-oauth-l5](https://github.com/adamwathan/eloquent-oauth-l5)
+* Check for empty directory before removing [PHP: What is the best and easiest way to check if directory is empty or not](http://stackoverflow.com/questions/18685576/php-what-is-the-best-and-easiest-way-to-check-if-directory-is-empty-or-not)
+* OAuth package [adamwathan/eloquent-oauth-l5](https://github.com/adamwathan/eloquent-oauth-l5)
 * [Laravel 5 routes - restricting based on user type](http://laravel.io/forum/02-17-2015-laravel-5-routes-restricting-based-on-user-type)
+* For orphan files [Get all eloquent models without relationship](http://stackoverflow.com/questions/31535024/get-all-eloquent-models-without-relationship)
