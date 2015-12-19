@@ -5,17 +5,24 @@
 @endsection
 
 @section('content')
-    <h1>{{ $title or '' }}</h1>
-
-    <p>Term: {{ $course->term->name }}<br>
-    For student <a href="..">{{ $course->student->initials }}</a><br>
-    Last Modified: {{ $course->updated_at->timezone('America/New_York')->format('g:i a M d') }}
-    </p>
-
 <?php $staff = FALSE; ?>
 @if(Auth::check() && Auth::user()->role == 'staff')
     <?php $staff = TRUE; ?>
 @endif
+
+    <h1>{{ $title or '' }}</h1>
+
+    <p>Term: {{ $course->term->name }}<br>
+    For student <a href="..">
+    @if ($staff)
+        {{ $course->student->initials }}
+    @else
+        {{ Auth::user()->name }}
+    @endif
+    </a><br>
+    Last Modified: {{ $course->updated_at->timezone('America/New_York')->format('g:i a M d') }}
+    </p>
+
     @if ($staff)
         <form action="{{ $_SERVER['REQUEST_URI'] }}" method="POST">
             <input type="hidden" name="_method" value="DELETE">
