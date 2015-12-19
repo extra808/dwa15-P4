@@ -7,10 +7,10 @@
 @section('content')
     <h1>{{ $title or '' }}</h1>
 
-    <p>
-    Course <a href="/students/{{ $student->id }}/courses/{{ $course->id }}">{{ 
+    <p>Course <a href="/students/{{ $student->id }}/courses/{{ $course->id }}">{{ 
             $course->name }}</a> for Student <a href="/students/{{ $student->id }}">{{ 
             $student->initials }}</a>
+    <br>Maximum File Size {{ ini_get('upload_max_filesize') }}
     </p>
 
     <form action="/students/{{ $student->id }}/courses/{{ $course->id }}/files" 

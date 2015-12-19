@@ -7,6 +7,9 @@
 @section('content')
     <h1>{{ $title or '' }}</h1>
 
+    <p>Maximum File Size {{ ini_get('upload_max_filesize') }}
+    </p>
+
     <form action="/files" method="POST" enctype="multipart/form-data">
         <input type='hidden' value='{{ csrf_token() }}' name='_token'>
         <div class="row">
