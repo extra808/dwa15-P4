@@ -54,7 +54,6 @@ $sitetitle = 'ATC Delivery';
         <div id="navbar" class="navbar-collapse collapse">
           @if(Auth::check() && Auth::user()->role == 'staff')
           <ul class="nav navbar-nav">
-            <li><a href="/students">List Students</a></li>
             <li><a href="/students/create">Add Student</a></li>
           </ul>
           @endif
@@ -83,14 +82,7 @@ $sitetitle = 'ATC Delivery';
 
         {{-- Main page content will be yielded here --}}
         @yield('content')
-
-        @if(\Session::has('flash_message'))
-            <div class='alert alert-warning' role="alert">
-            {{ \Session::get('flash_message') }}
-            </div>
-        @endif
       </div>
-
     </div> <!-- /container -->
 
 

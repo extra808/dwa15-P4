@@ -159,7 +159,7 @@ class StudentController extends Controller
 
         Session::flash('flash_message', $student->initials.' deleted');
 
-        // go to list view
-        return redirect()->action('StudentController@index');
+        // go to list view on staff member's home page
+        return redirect('/');
     }
 }
