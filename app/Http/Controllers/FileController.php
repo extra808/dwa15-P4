@@ -59,7 +59,8 @@ class FileController extends Controller
 
         // save file
         if($file->saveFile($request, $course->id) ) {
-            return redirect()->action('CourseController@show', [$course->student->id, $course->id]);
+            return redirect()->action('CourseController@show', 
+                                        [$course->student->id, $course->id]);
         }
         else {
             return back()->withInput();
@@ -78,7 +79,8 @@ class FileController extends Controller
         $file = \ATC\File::getFileOrFail($id);
 
         // download file
-        return response()->download($destinationPath = storage_path() .'/files/'. $file->path .'/'. $file->name);
+        return response()->download($destinationPath = storage_path() .'/files/'. 
+                                    $file->path .'/'. $file->name);
     }
 
     /**
@@ -147,7 +149,8 @@ class FileController extends Controller
             Session::flash('flash_message', $file->name.' deleted');
         }
         else {
-            Session::flash('flash_message', $file->name.' <strong>NOT</strong> deleted');
+            Session::flash('flash_message', $file->name 
+                            .' <strong>NOT</strong> deleted');
         }
 
         // go to list view
@@ -190,7 +193,8 @@ class FileController extends Controller
 
         // save update
         if($file->saveFileCourse($course->id) ) {
-            return redirect()->action('CourseController@show', [$course->student->id, $course->id]);
+            return redirect()->action('CourseController@show', 
+                                        [$course->student->id, $course->id]);
         }
         else {
             return back()->withInput();

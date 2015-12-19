@@ -80,7 +80,7 @@ class CourseFileController extends Controller
         // save file
         if($file->saveFile($request, $courseId, $studentId) ) {
             return redirect()->action('CourseFileController@edit', 
-                [$studentId, $courseId, $file]);
+                                        [$studentId, $courseId, $file]);
         }
         else {
             return back()->withInput();
@@ -108,7 +108,8 @@ class CourseFileController extends Controller
         $file = \ATC\File::getFileOrFail($id);
 
         // download file
-        return response()->download($destinationPath = storage_path() .'/files/'. $file->path .'/'. $file->name);
+        return response()->download($destinationPath = storage_path() .'/files/'. 
+                                    $file->path .'/'. $file->name);
     }
 
     /**
@@ -158,7 +159,7 @@ class CourseFileController extends Controller
         // save file
         if($file->saveFile($request, $courseId, $studentId) ) {
             return redirect()->action('CourseFileController@edit', 
-                [$studentId, $courseId, $file]);
+                                        [$studentId, $courseId, $file]);
         }
         else {
             return back()->withInput();
@@ -208,7 +209,8 @@ class CourseFileController extends Controller
                 Session::flash('flash_message', $file->name.' deleted');
             }
             else {
-                Session::flash('flash_message', $file->name.' <strong>NOT</strong> deleted');
+                Session::flash('flash_message', $file->name
+                                .' <strong>NOT</strong> deleted');
             }
         }
 
@@ -226,7 +228,8 @@ class CourseFileController extends Controller
     public function showStudentCourseFile($courseId, $id)
     {
         // get id of logged in student
-        $studentId = \ATC\Student::where('external_id', '=', \Auth::user()->email)->get() ->first() ->id;
+        $studentId = \ATC\Student::where('external_id', '=', \Auth::user()->email) 
+                                    ->get() ->first() ->id;
 
         return $this->show($studentId, $courseId, $id);
     }

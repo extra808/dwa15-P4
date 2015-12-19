@@ -38,7 +38,8 @@ class Course extends Model
 
     // many to many relationship with courses
     public function files() {
-        return $this->belongsToMany('\ATC\File')->orderBy('updated_at', 'desc')->withTimestamps();
+        return $this->belongsToMany('\ATC\File') ->orderBy('updated_at', 'desc') 
+            ->withTimestamps();
     }
 
     public function getErrors() {

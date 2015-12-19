@@ -82,7 +82,8 @@ class StudentController extends Controller
 
         $courses = \ATC\Course::where('student_id', $id) ->orderBy('name', 'ASC') ->get();
 
-        return view('student.show') ->withTitle($title) ->withStudent($student) ->withCourses($courses);
+        return view('student.show') ->withTitle($title) ->withStudent($student) 
+            ->withCourses($courses);
     }
 
     /**

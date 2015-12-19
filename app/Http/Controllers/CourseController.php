@@ -24,7 +24,8 @@ class CourseController extends Controller
         $title = 'List '. $student->initials .' Courses';
 
         // get courses
-        $courses = \ATC\Course::where('student_id', $studentId) ->orderBy('name', 'ASC') ->get();
+        $courses = \ATC\Course::where('student_id', $studentId) 
+                                ->orderBy('name', 'ASC') ->get();
 
         return view('course.index') ->withTitle($title) ->withCourses($courses);
     }
@@ -169,7 +170,8 @@ class CourseController extends Controller
     public function showStudentCourse($id)
     {
         // get id of logged in student
-        $studentId = \ATC\Student::where('external_id', '=', \Auth::user()->email)->get() ->first() ->id;
+        $studentId = \ATC\Student::where('external_id', '=', \Auth::user()->email) 
+                                    ->get() ->first() ->id;
 
         return $this->show($studentId, $id);
     }
