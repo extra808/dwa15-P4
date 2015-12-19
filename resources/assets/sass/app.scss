@@ -2,6 +2,12 @@
 
 @import "ie10-viewport-bug-workaround";
 
+.navbar-default .navbar-nav > li > a:focus, .navbar-default .navbar-nav > li > a:hover {
+    color: #333;
+    background-color: transparent;
+    text-decoration: underline;
+}
+
 /* style links in first column of table only*/
 .download-file tr td:first-child a:visited {
     color: #551A8B; /* default visited link purple */
