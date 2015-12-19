@@ -80,7 +80,8 @@ class StudentController extends Controller
         // student found
         Session::remove('flash_message');
 
-        $courses = \ATC\Course::where('student_id', $id) ->orderBy('name', 'ASC') ->get();
+        $courses = \ATC\Course::with('term') ->where('student_id', $id) 
+            ->orderBy('name', 'ASC') ->get();
 
         return view('student.show') ->withTitle($title) ->withStudent($student) 
             ->withCourses($courses);
