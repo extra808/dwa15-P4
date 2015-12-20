@@ -46,13 +46,13 @@ class Student extends Model
      */
     public static function getStudentOrFail($id) {
         // in case student is not found
-        Session::flash('flash_message','Student not found.');
+        Session::flash('http_status','Student not found.');
 
         // get the student
         $student = \ATC\Student::findOrFail($id);
 
         // student found
-        Session::remove('flash_message');
+        Session::remove('http_status');
 
         return $student;
     }
