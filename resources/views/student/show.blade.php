@@ -34,6 +34,9 @@
         </form>
     @else
         <h1>{{ Auth::user()->name }}</h1>
+
+        <p>Click a course name to see the files uploaded.
+        </p>
     @endif
 
     <h2>Courses</h2>
