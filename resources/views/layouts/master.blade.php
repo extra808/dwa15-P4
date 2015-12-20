@@ -80,13 +80,17 @@ $sitetitle = 'ATC Delivery';
         @if(\Session::has('flash_message'))
             <div class='alert alert-warning' role="alert">
             <?php $messages = \Session::get('flash_message'); ?>
-            @foreach($messages as $key => $value)
-                {{ $key }}:
-                @foreach($value as $reason)
-                    {{ $reason }}
+            @if(is_string($messages) )
+                {{ $messages }}
+            @else
+                @foreach($messages as $key => $value)
+                    {{ $key }}:
+                    @foreach($value as $reason)
+                        {{ $reason }}
+                    @endforeach
+                    <br>
                 @endforeach
-                <br>
-            @endforeach
+            @endif
             </div>
         @endif
 
