@@ -79,10 +79,24 @@ $sitetitle = 'ATC Delivery';
       <div class="row">
         @if(\Session::has('flash_message'))
             <div class='alert alert-warning' role="alert">
-            {{ \Session::get('flash_message') }}
+            <?php $messages = \Session::get('flash_message'); ?>
+            @foreach($messages as $key => $value)
+                {{ $key }}:
+                @foreach($value as $reason)
+                    {{ $reason }}
+                @endforeach
+                <br>
+            @endforeach
             </div>
         @endif
 
+@if(count($errors) > 0)
+    <ul class='alert alert-warning' role="alert">
+        @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+        @endforeach
+    </ul>
+@endif
         {{-- Main page content will be yielded here --}}
         @yield('content')
       </div>

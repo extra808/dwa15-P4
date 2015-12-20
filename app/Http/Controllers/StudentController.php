@@ -55,7 +55,7 @@ class StudentController extends Controller
             return redirect()->action('StudentController@show', [$student]);
         }
         else {
-            $errors = $student->getErrors();
+            $errors = json_decode($student->getErrors() );
             Session::flash('flash_message', $errors);
             return back()->withInput();
         }
@@ -72,13 +72,13 @@ class StudentController extends Controller
         $title = 'Show Student';
 
         // in case it's not found
-        Session::flash('flash_message','Student not found.');
+        Session::flash('http_status','Student not found.');
 
         // get a student
         $student = \ATC\Student::findOrFail($id);
 
         // student found
-        Session::remove('flash_message');
+        Session::remove('http_status');
 
         $courses = \ATC\Course::with('term') ->where('student_id', $id) 
             ->orderBy('name', 'ASC') ->get();
@@ -96,13 +96,13 @@ class StudentController extends Controller
     public function edit($id)
     {
         // in case it's not found
-        Session::flash('flash_message','Student not found.');
+        Session::flash('http_status','Student not found.');
 
         // get a student
         $student = \ATC\Student::findOrFail($id);
 
         // student found
-        Session::remove('flash_message');
+        Session::remove('http_status');
 
         $title = 'Edit '. $student->initials;
 
@@ -119,13 +119,13 @@ class StudentController extends Controller
     public function update(Request $request, $id)
     {
         // in case it's not found
-        Session::flash('flash_message','Student not found.');
+        Session::flash('http_status','Student not found.');
 
         // get a student
         $student = \ATC\Student::findOrFail($id);
 
         // student found
-        Session::remove('flash_message');
+        Session::remove('http_status');
 
         // attempt validation
         if ($student->validate($request) ) {
@@ -136,7 +136,7 @@ class StudentController extends Controller
             return redirect()->action('StudentController@show', [$student]);
         }
         else {
-            $errors = $student->getErrors();
+            $errors = json_decode($student->getErrors() );
             Session::flash('flash_message', $errors);
             return back()->withInput();
         }
@@ -151,7 +151,7 @@ class StudentController extends Controller
     public function destroy($id)
     {
         // in case it's not found
-        Session::flash('flash_message','Student not found.');
+        Session::flash('http_status','Student not found.');
 
         // get a student
         $student = \ATC\Student::findOrFail($id);

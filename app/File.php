@@ -43,13 +43,13 @@ class File extends Model
 
     public static function getFileOrFail($id) {
         // in case it's not found
-        Session::flash('flash_message','File not found.');
+        Session::flash('http_status','File not found.');
 
         // get a file
         $file = \ATC\File::findOrFail($id);
 
         // file found
-        Session::remove('flash_message');
+        Session::remove('http_status');
 
         return $file;
     }
@@ -106,7 +106,7 @@ class File extends Model
             return true;
         }
         else {
-            $errors = $this->getErrors();
+            $errors = json_decode($this->getErrors() );
             Session::flash('flash_message', $errors);
 
             return false;

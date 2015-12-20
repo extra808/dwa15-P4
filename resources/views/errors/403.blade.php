@@ -6,8 +6,8 @@
 
 @section('content')
     <h1>
-    @if(\Session::has('flash_message') )
-        {{ \Session::get('flash_message') }}
+    @if(\Session::has('http_status') )
+        {{ \Session::get('http_status') }}
     @else
         403 Forbidden
     @endif

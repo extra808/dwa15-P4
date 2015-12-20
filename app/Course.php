@@ -69,7 +69,7 @@ class Course extends Model
      */
     public static function getCourseWithOrFail($id) {
         // in case it's not found
-        Session::flash('flash_message','Course not found.');
+        Session::flash('http_status','Course not found.');
 
         // get course with its term and its files sorted newest to oldest
         $course = \ATC\Course::with(['term', 'files' => function ($query) {
@@ -77,7 +77,7 @@ class Course extends Model
                 }])->findOrFail($id);
 
         // course found
-        Session::remove('flash_message');
+        Session::remove('http_status');
 
         return $course;
     }
@@ -102,7 +102,7 @@ class Course extends Model
             return true;
         }
         else {
-            $errors = $this->getErrors();
+            $errors = json_decode($this->getErrors() );
             Session::flash('flash_message', $errors);
             return false;
         }

@@ -40,25 +40,25 @@ Route::get('/google/login', function() {
                     $user->save();
                 }
                 else {
-                    Session::flash('flash_message', 'No such user');
+                    Session::flash('http_status', 'No such user');
                     abort(403, 'Forbbiden');
                 }
             }
             else {
-                Session::flash('flash_message', 'Domain not allowed');
+                Session::flash('http_status', 'Domain not allowed');
                 abort(403, 'Forbbiden');
             }
         });
     }
     catch (ApplicationRejectedException $e) {
         // User rejected application
-        Session::flash('flash_message', 'User rejected application');
+        Session::flash('http_status', 'User rejected application');
         abort(403, 'Forbbiden');
     }
     catch (InvalidAuthorizationCodeException $e) {
         // Authorization was attempted with invalid
         // code,likely forgery attempt
-        Session::flash('flash_message', 'Authorization was attempted with invalid code');
+        Session::flash('http_status', 'Authorization was attempted with invalid code');
         abort(403, 'Forbbiden');
     }
 
