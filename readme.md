@@ -7,8 +7,8 @@
 A site for delivering files to student clients of the Assistive Technology Center (ATC). Staff login, add the students, courses (organized by semester and year), then upload files to the courses. Student clients login and can only download the files for courses they're allowed access to.
 
 ## Demo
-[Part 1, user interface (9:34)](https://youtu.be/7FhOelfLZYs)
-[Part 2, the code (15:13)](https://youtu.be/DDyeV-izAjc) You might want to skip this, it's long and rambling
+* [Part 1, user interface (9:34)](https://youtu.be/7FhOelfLZYs)
+* [Part 2, the code (15:13)](https://youtu.be/DDyeV-izAjc) You might want to skip this, it's long and rambling
 
 ## Details for teaching team
 * Authentication is external using OAuth with Google and limited to addresses of a single domain. Login information for test users provided separately
